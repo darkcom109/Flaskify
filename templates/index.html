@@ -4,10 +4,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page">Login</a>
+                <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page">Sign-up</a>
+                <a class="nav-link active" aria-current="page" href="{{url_for('signup')}}">Sign-up</a>
             </li>
         </ul>
     </div>
@@ -17,7 +17,7 @@
     <section class="font-for-text" style="text-align: center; padding-block: 100px;">
         <h1 style="font-size: 70px;">Learn Flask. With Flask.</h1>
         <p>Interactive Lessons and Projects</p>
-        <button class="btn btn-primary">Login</button>
-        <button class="btn btn-primary">Sign-up</button>
+        <a href="{{url_for('login')}}"><button class="btn btn-primary">Login</button></a>
+        <a href="{{url_for('signup')}}"><button class="btn btn-primary">Sign-up</button></a>
     </section>
 {% endblock %}

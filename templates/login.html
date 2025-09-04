@@ -12,3 +12,26 @@
         </ul>
     </div>
 {% endblock %}
+
+{% block section %}
+    {% if name %}
+        <h1>Welcome {{ name }}!</h1>
+    {% else %}
+        <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
+            <h1 class="text-center">Login</h1>
+            <br>
+            <form method="POST" class="d-flex flex-column gap-2">
+                {{ form.hidden_tag() }}
+
+                {{ form.email.label(class="form-label")}}
+                {{ form.email(class="form-control")}}
+                {{ form.password.label(class="form-label")}}
+                {{ form.password(class="form-control")}}
+                <div class="d-flex justify-content-center">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

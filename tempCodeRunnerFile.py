@@ -1,1 +1,0 @@
-app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY")

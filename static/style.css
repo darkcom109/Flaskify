@@ -1,0 +1,14 @@
+.font-for-text {
+    font-family: 'Inter';
+}
+
+.logo-style {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, rgb(173, 102, 173), rgb(169, 215, 255));
+}

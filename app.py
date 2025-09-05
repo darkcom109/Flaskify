@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
 # Initialise database
 db = SQLAlchemy(app)
 
-# Create Model
+# Create User Model
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
@@ -63,6 +63,8 @@ def dashboard():
 
 @app.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
     return render_template("index.html")
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -91,23 +93,23 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("homepage"))
+        return redirect(url_for("dashboard"))
     
     form = LoginForm()
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for("homepage"))
+            return redirect(url_for("dashboard"))
         else:
             flash("Login failed. Check your username or password")
         
     return render_template("login.html", form=form)
 
-@app.route('/homepage')
+@app.route('/profile')
 @login_required
-def homepage():
-    return render_template("homepage.html", current_user=current_user)
+def profile():
+    return render_template("profile.html", current_user=current_user)
 
 if __name__ == "__main__":
     app.run(debug=True)

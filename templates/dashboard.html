@@ -2,17 +2,66 @@
 
 {% block navigation_items %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto gap-2">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Logout</a>
+                <a class="nav-link active" aria-current="page" href="{{url_for('dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('homepage')}}">Home</a>
+                <a class="nav-link active" aria-current="page" href="{{url_for('profile')}}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Logout</a>
             </li>
         </ul>
     </div>
 {% endblock %}
 
 {% block section %}
-    <h1 class="font-for-text text-center">Welcome back {{ current_user.name.title() }}!</h1>
+<div class="container">
+    <h1 class="font-for-text text-center">Your Dashboard</h1>
+    <p class="font-for-text text-center fs-6">Your Progress</p>
+
+    <div class="progress mb-4 font-for-text me-auto ms-auto" style="height: 20px; width: 50%">
+        <div id="progress-bar" class="progress-bar progress-bar-styling" role="progressbar" style="width:0%">
+            0%
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Setup & Hello World
+        </li>
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Routes & Views
+        </li>
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Templates & Jinja Basics
+        </li>
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Static Files
+        </li>
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Forms & User Input
+        </li>
+        <li class="list-group-item">
+            <input type="checkbox" class="lesson-check"> Flash Messages & Feedback
+        </li>
+    </ul>
+
+
+    <script>
+        const checkboxes = document.querySelectorAll(".lesson-check");
+        const progress = document.getElementById("progress-bar")
+
+        function updateProgress() {
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percent = Math.round((checked / total) * 100)
+            progress.style.width = percent + "%"
+            progress.textContent = percent + "%"
+        }
+
+        checkboxes.forEach(cb => cb.addEventListener("change", updateProgress))
+    </script>
+</div>
 {% endblock %}

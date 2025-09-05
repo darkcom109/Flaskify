@@ -20,9 +20,26 @@
     padding-bottom: 0.5px;
     border-radius: 5px;
     background: linear-gradient(90deg, rgb(173, 102, 173), rgb(169, 215, 255));
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.15);
 }
 
 .button-bg-style {
     color: white;
-    background: linear-gradient(rgb(173, 102, 173), rgb(169, 215, 255));
+    background: linear-gradient(135deg, rgb(173, 102, 173), rgb(169, 215, 255));
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.button-bg-style:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.margin-top-styling {
+    margin-top: 20px;
+}
+
+.progress-bar-styling {
+    background: linear-gradient(90deg, rgb(173, 102, 173), rgb(169, 215, 255));
 }

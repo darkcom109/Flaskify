@@ -43,3 +43,8 @@
 .progress-bar-styling {
     background: linear-gradient(90deg, rgb(173, 102, 173), rgb(169, 215, 255));
 }
+
+.item-styling {
+    margin-left: 10px;
+    margin-block: 10px;
+}

@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
 
 # Secret key
-app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY")
+app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
 
 # Initialise database
 db = SQLAlchemy(app)
@@ -73,7 +73,6 @@ def signup():
         
         db.session.add(user)
         db.session.commit()
-        flash("You have successfully signed up to Flaskify!")
         return redirect(url_for("login"))
     
     return render_template("signup.html", form=form)
@@ -85,10 +84,9 @@ def login():
         user = Users.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            flash("You have successfully logged in!")
             return redirect(url_for("index"))
         else:
-            flash("Login failed. Check your username and password")
+            flash("Login failed. Check your username or password")
         
     return render_template("login.html", form=form)
 

@@ -2,7 +2,7 @@
 
 {% block navigation_items %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto gap-2">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
             </li>
@@ -17,7 +17,7 @@
     <section class="font-for-text" style="text-align: center; padding-block: 100px;">
         <h1 style="font-size: 70px;">Learn Flask. With Flask.</h1>
         <p>Interactive Lessons and Projects</p>
-        <a href="{{url_for('login')}}"><button class="btn btn-primary">Login</button></a>
-        <a href="{{url_for('signup')}}"><button class="btn btn-primary">Sign-up</button></a>
+        <a href="{{url_for('login')}}"><button class="btn button-bg-style">Login</button></a>
+        <a href="{{url_for('signup')}}"><button class="btn button-bg-style">Sign-up</button></a>
     </section>
 {% endblock %}

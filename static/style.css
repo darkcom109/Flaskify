@@ -40,6 +40,10 @@
     margin-top: 20px;
 }
 
+.margin-left-styling {
+    margin-left: 15px;
+}
+
 .progress-bar-styling {
     background: linear-gradient(90deg, rgb(173, 102, 173), rgb(169, 215, 255));
 }
@@ -47,4 +51,9 @@
 .item-styling {
     margin-left: 10px;
     margin-block: 10px;
+}
+
+a {
+  text-decoration: none; /* removes underline */
+  color: inherit;        /* makes it inherit text color from parent */
 }

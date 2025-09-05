@@ -111,5 +111,40 @@ def login():
 def profile():
     return render_template("profile.html", current_user=current_user)
 
+@app.route('/dashboard/lesson_one')
+@login_required
+def lesson_one():
+    return render_template("/lessons/lesson_one.html")
+
+@app.route('/dashboard/lesson_two')
+@login_required
+def lesson_two():
+    return render_template("/lessons/lesson_two.html")
+
+@app.route('/dashboard/lesson_three')
+@login_required
+def lesson_three():
+    return render_template("/lessons/lesson_three.html")
+
+@app.route('/dashboard/lesson_four')
+@login_required
+def lesson_four():
+    return render_template("/lessons/lesson_four.html")
+
+@app.route('/dashboard/lesson_five')
+@login_required
+def lesson_five():
+    return render_template("/lessons/lesson_five.html")
+
+@app.route('/dashboard/lesson_six')
+@login_required
+def lesson_six():
+    return render_template("/lessons/lesson_six.html")
+
+@app.route('/dashboard/lesson_seven')
+@login_required
+def lesson_seven():
+    return render_template("/lessons/lesson_seven.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

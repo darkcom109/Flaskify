@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block section %}
+<div class="container">
+  <h1 class="mb-3">Lesson 1: Setup & Hello World</h1>
+  <p class="lead">In this lesson, you'll install Flask and create your first "Hello World" app.</p>
+
+  <hr>
+
+  <h3>Step 1: Install Flask</h3>
+  <pre><code>pip install flask</code></pre>
+
+  <h3>Step 2: Create <code>app.py</code></h3>
+  <pre><code>
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello, Flaskify!"
+  </code></pre>
+
+  <h3>Step 3: Run the App</h3>
+  <pre><code>flask run</code></pre>
+
+  <p class="mt-3">Now open <code>http://127.0.0.1:5000</code> in your browser. You should see "Hello, Flaskify!".</p>
+
+  <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+</div>
+{% endblock %}

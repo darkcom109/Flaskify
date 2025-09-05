@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
-from flask_login import UserMixin, LoginManager, login_user
+from flask_login import UserMixin, LoginManager, login_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -36,6 +36,11 @@ login_manager.login_message_category = "info"
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return f"Hello, {current_user.name}! You’re logged in."
+
 # Create a sign-up form class
 class SignUpForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
@@ -55,7 +60,6 @@ def index():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    name = None
     form = SignUpForm()
 
     if form.validate_on_submit():
@@ -84,11 +88,15 @@ def login():
         user = Users.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for("index"))
+            return redirect(url_for("homepage"))
         else:
             flash("Login failed. Check your username or password")
         
     return render_template("login.html", form=form)
+
+@app.route('/homepage')
+def homepage():
+    return render_template("homepage.html", current_user=current_user)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime, timezone
 from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -17,6 +18,7 @@ app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
 
 # Initialise database
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # Create User Model
 class Users(db.Model, UserMixin):
@@ -27,7 +29,7 @@ class Users(db.Model, UserMixin):
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     bio = db.Column(db.String(9999), default="Hello, I am using Flaskify!")
     profile_picture = db.Column(db.String(9999))
-    progress = db.Column(db.Integer, default=0)
+    aspiring_job = db.Column(db.String(9999))
 
 # Initialise LoginManager
 login_manager = LoginManager(app)
@@ -52,6 +54,7 @@ class UpdateForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
     bio = StringField("Profile Description", validators=[DataRequired()])
+    aspiring_job = StringField("Aspiring Position")
     submit = SubmitField("Submit")
 
 @login_manager.user_loader
@@ -95,7 +98,7 @@ def signup():
         
         db.session.add(user)
         db.session.commit()
-        flash("Your Account was Successfully Made")
+        flash("Your Account was Successfully Made", "success")
         return redirect(url_for("login"))
     
     return render_template("signup.html", form=form)
@@ -130,6 +133,7 @@ def update(id):
         name_to_update.name = request.form['name']
         name_to_update.email = request.form['email']
         name_to_update.bio = request.form['bio']
+        name_to_update.aspiring_job = request.form['aspiring_job']
         try:
             db.session.commit()
             flash("User updated successfully!", "success")

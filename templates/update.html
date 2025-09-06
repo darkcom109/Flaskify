@@ -1,5 +1,21 @@
 {% extends 'base.html' %}
 
+{% block navigation_items %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto gap-2">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('dashboard')}}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('profile')}}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Logout</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
 {% block section %}
     <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
         <h1 class="text-center">Update Profile</h1>
@@ -7,11 +23,13 @@
         <form action="/update/{{ name_to_update.id }}" method="POST" class="d-flex flex-column gap-2">
             {{ form.hidden_tag() }}
 
-            {{ form.name.label(class="form-label") }}
+            {{ form.name.label(class="") }}
             {{ form.name(class="form-control", value=name_to_update.name) }}
-            {{ form.email.label(class="form-label")}}
+            {{ form.email.label(class="")}}
             {{ form.email(class="form-control", value=name_to_update.email) }}
-            {{ form.bio.label(class="form-label")}}
+            {{ form.aspiring_job.label(class="")}}
+            {{ form.aspiring_job(class="form-control", value=name_to_update.aspiring_job) }}
+            {{ form.bio.label(class="")}}
             {{ form.bio(class="form-control", value=name_to_update.bio) }}
             <div class="d-flex justify-content-center">
                 {{ form.submit(class="btn button-bg-style margin-top-styling") }}

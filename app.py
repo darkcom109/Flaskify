@@ -25,6 +25,9 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(200), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    bio = db.Column(db.String(9999), default="Hello, I am using Flaskify!")
+    profile_picture = db.Column(db.String(9999))
+    progress = db.Column(db.Integer, default=0)
 
 # Initialise LoginManager
 login_manager = LoginManager(app)
@@ -59,7 +62,7 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", current_user=current_user)
 
 @app.route('/')
 def index():

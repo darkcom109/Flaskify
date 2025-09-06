@@ -19,6 +19,9 @@
 {% block section %}
     <h1 class="font-for-text text-center">Welcome back {{ current_user.name.title() }}!</h1>
     <p class="font-for-text text-center">{{ current_user.bio }}</p>
+    <div class="d-flex justify-content-center fw-bold">
+        <a class="font-for-text" href="{{url_for('update', id=current_user.id)}}">Edit Profile</a>
+    </div>
     <div class="d-flex justify-content-center">
         <img src="https://tse2.mm.bing.net/th/id/OIP.-n6mzk6Qt5Tu-I3ek1It1gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3">
     </div>

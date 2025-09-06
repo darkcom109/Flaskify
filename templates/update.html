@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block section %}
+    <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
+        <h1 class="text-center">Update Profile</h1>
+        <br>
+        <form action="/update/{{ name_to_update.id }}" method="POST" class="d-flex flex-column gap-2">
+            {{ form.hidden_tag() }}
+
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control", value=name_to_update.name) }}
+            {{ form.email.label(class="form-label")}}
+            {{ form.email(class="form-control", value=name_to_update.email) }}
+            {{ form.bio.label(class="form-label")}}
+            {{ form.bio(class="form-control", value=name_to_update.bio) }}
+            <div class="d-flex justify-content-center">
+                {{ form.submit(class="btn button-bg-style margin-top-styling") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

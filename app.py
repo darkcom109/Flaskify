@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
@@ -48,6 +48,12 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+class UpdateForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    bio = StringField("Profile Description", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
@@ -56,7 +62,7 @@ def load_user(user_id):
 @login_required
 def logout():
     logout_user()
-    flash("You have been logged out")
+    flash("You have been logged out", "success")
     return redirect(url_for("login"))
 
 @app.route('/dashboard')
@@ -89,6 +95,7 @@ def signup():
         
         db.session.add(user)
         db.session.commit()
+        flash("Your Account was Successfully Made")
         return redirect(url_for("login"))
     
     return render_template("signup.html", form=form)
@@ -105,7 +112,7 @@ def login():
             login_user(user)
             return redirect(url_for("dashboard"))
         else:
-            flash("Login failed. Check your username or password")
+            flash("Login failed. Check your username or password", "danger")
         
     return render_template("login.html", form=form)
 
@@ -113,6 +120,25 @@ def login():
 @login_required
 def profile():
     return render_template("profile.html", current_user=current_user)
+
+# Update database record
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    form = UpdateForm()
+    name_to_update = Users.query.get_or_404(id)
+    if request.method == "POST":
+        name_to_update.name = request.form['name']
+        name_to_update.email = request.form['email']
+        name_to_update.bio = request.form['bio']
+        try:
+            db.session.commit()
+            flash("User updated successfully!", "success")
+            return redirect(url_for("dashboard"))
+        except:
+            flash("Error, try again!", "danger")
+            return render_template("update.html", form=form, name_to_update=name_to_update)
+    else:
+        return render_template("update.html", form=form, name_to_update=name_to_update)
 
 @app.route('/dashboard/lesson_zero')
 @login_required

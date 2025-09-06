@@ -1,31 +1,49 @@
 {% extends 'base.html' %}
 
 {% block section %}
-<div class="container">
-  <h1 class="mb-3">Lesson 1: Setup & Hello World</h1>
-  <p class="lead">In this lesson, you'll install Flask and create your first "Hello World" app.</p>
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 1: Setup & Hello World</h1>
+        <p class="lead">In this lesson, you'll install Flask and create your first "Hello World" app.</p>
+    </div>
 
-  <hr>
+    <hr>
 
-  <h3>Step 1: Install Flask</h3>
-  <pre><code>pip install flask</code></pre>
+    <h3>Step 1: Install Flask</h3>
+    <pre><code>
+    pip install flask
+    </code></pre>
+    <p>This command uses <code>pip</code>, Python’s package manager, to download and install Flask into your environment. 
+    After running it, you’ll be able to import <code>Flask</code> in your Python scripts and start building web apps. 
+    If it doesn’t work, make sure Python and pip are properly installed and added to your system’s PATH.</p>
 
-  <h3>Step 2: Create <code>app.py</code></h3>
-  <pre><code>
-from flask import Flask
+    <h3>Step 2: Create <code>app.py</code></h3>
+    <pre><code>
+    from flask import Flask
 
-app = Flask(__name__)
+    app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return "Hello, Flaskify!"
-  </code></pre>
+    @app.route("/")
+    def home():
+        return "Hello, Flaskify!"
+    </code></pre>
+    <p>This script creates your first Flask application.</p>
+    <ul>
+        <li><code>Flask(__name__)</code> initializes your app.</li>
+        <li><code>@app.route("/")</code> tells Flask which URL to listen to (in this case, the home page).</li>
+        <li>The <code>home()</code> function runs when you visit <code>http://127.0.0.1:5000/</code> and returns "Hello, Flaskify!".</li>
+    </ul>
 
-  <h3>Step 3: Run the App</h3>
-  <pre><code>flask run</code></pre>
+    <h3>Step 3: Run the App</h3>
+    <pre><code>
+    flask run
+    </code></pre>
 
-  <p class="mt-3">Now open <code>http://127.0.0.1:5000</code> in your browser. You should see "Hello, Flaskify!".</p>
+    <p class="mt-3">Now open <code>http://127.0.0.1:5000</code> in your browser. You should see "Hello, Flaskify!".</p>
 
-  <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+
 </div>
 {% endblock %}

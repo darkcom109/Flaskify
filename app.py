@@ -111,6 +111,11 @@ def login():
 def profile():
     return render_template("profile.html", current_user=current_user)
 
+@app.route('/dashboard/lesson_zero')
+@login_required
+def lesson_zero():
+    return render_template("/lessons/lesson_zero.html")
+
 @app.route('/dashboard/lesson_one')
 @login_required
 def lesson_one():

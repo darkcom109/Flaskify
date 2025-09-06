@@ -57,3 +57,9 @@ a {
   text-decoration: none; /* removes underline */
   color: inherit;        /* makes it inherit text color from parent */
 }
+
+pre {
+    background-color: rgb(239, 239, 239);
+    border: 1px solid gray;
+    border-radius: 10px
+}

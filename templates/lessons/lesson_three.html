@@ -1,1 +1,85 @@
 {% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 3: Templates & Jinja Basics</h1>
+        <p class="lead">In this lesson, you’ll learn how Flask uses templates to render HTML and how Jinja2 lets you add dynamic content to your pages.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Using a Template</h3>
+    <pre><code>
+        # app.py
+        from flask import Flask, render_template
+
+        app = Flask(__name__)
+
+        @app.route("/")
+        def home():
+            return render_template("home.html")
+    </code></pre>
+
+    <p>
+        Instead of returning a raw string, Flask uses <code>render_template()</code> to return an HTML file.  
+        By default, Flask looks for templates in a folder called <code>templates/</code>.
+    </p>
+
+    <h3>Step 2: Creating <code>home.html</code></h3>
+    <pre><code>
+ 
+        <h1>Welcome to Flaskify!</h1>
+        <p>This page is rendered from a template.</p>
+    </code></pre>
+    <p>
+        Save this file inside the <code>templates/</code> directory.  
+        When you visit <code>http://127.0.0.1:5000</code>, Flask will load and return this HTML page.
+    </p>
+
+    <h3>Step 3: Passing Data to Templates</h3>
+    <pre><code>
+    # app.py
+    @app.route("/user/&lt;name&gt;")
+    def user(name):
+        return render_template("user.html", username=name)
+    </code></pre>
+
+    <pre><code>
+    <!-- templates/user.html -->
+    &lt;h1&gt;Hello, {{ "{{ username }}" }}!&lt;/h1&gt;
+    &lt;p&gt;Welcome to Flaskify.&lt;/p&gt;
+    </code></pre>
+    <p>
+        Jinja placeholders <code>{{ "{{ ... }}" }}</code> let you insert Python values directly into HTML.  
+        Visiting <code>/user/Alice</code> will show “Hello, Alice!”
+    </p>
+
+    <h3>Step 4: Logic in Templates</h3>
+    <pre><code>
+    <!-- templates/list.html -->
+    &lt;h1&gt;Your To-Do List&lt;/h1&gt;
+    &lt;ul&gt;
+    {% raw %}{% for item in items %}{% endraw %}
+        &lt;li&gt;{{ "{{ item }}" }}&lt;/li&gt;
+    {% raw %}{% endfor %}{% endraw %}
+    &lt;/ul&gt;
+    </code></pre>
+    <pre><code>
+    # app.py
+    @app.route("/todos")
+    def todos():
+        tasks = ["Learn Flask", "Build a project", "Celebrate"]
+        return render_template("list.html", items=tasks)
+    </code></pre>
+
+    <p>
+        Jinja uses tags like <code>{% raw %}{% for ... %}{% endfor %}{% endraw %}</code> and <code>{% raw %}{% if ... %}{% endif %}{% endraw %}</code> to add loops and conditionals.  
+        This lets you dynamically generate lists, tables, or other repeated content.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

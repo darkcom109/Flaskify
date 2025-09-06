@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 0: Introduction</h1>
+        <p class="lead">Welcome to Flaskify! Before diving into code, let’s talk about what Flask is and how this platform will help you learn it.</p>
+    </div>
+
+    <hr>
+
+    <h3>What is Flask?</h3>
+    <p>
+        Flask is a <strong>lightweight web framework for Python</strong>.  
+        It lets you turn regular Python code into a web application. With Flask, you can:
+    </p>
+    <ul>
+        <li>Create web pages with URLs and routes</li>
+        <li>Use templates to generate dynamic HTML</li>
+        <li>Handle forms, user input, and sessions</li>
+        <li>Connect to databases</li>
+    </ul>
+
+    <h3>Why Flask?</h3>
+    <p>
+        Flask is <em>minimal but powerful</em>. Unlike bigger frameworks (like Django), it doesn’t force you into a specific structure.  
+        This makes it perfect for beginners: you only learn what you need, when you need it.
+    </p>
+
+    <h3>What is Flaskify?</h3>
+    <p>
+        Flaskify is your personal learning platform — built <em>with</em> Flask, to teach you <em>Flask</em>.  
+        Each lesson will introduce a new concept, show you code examples, and give you space to practice.  
+    </p>
+
+    <h3>What You’ll Learn</h3>
+    <p>By the end of this course, you’ll know how to:</p>
+    <ul>
+        <li>Set up and run a Flask project</li>
+        <li>Create routes and views</li>
+        <li>Use templates with Jinja</li>
+        <li>Add static files (CSS, images, JavaScript)</li>
+        <li>Handle forms and user input</li>
+        <li>Show flash messages for feedback</li>
+        <li>(Optional) Build a mini project with everything combined</li>
+    </ul>
+
+    <h3>Before You Start</h3>
+    <p>
+        Make sure you have:
+    </p>
+    <ul>
+        <li>Python installed (3.8+ recommended)</li>
+        <li>Basic knowledge of Python syntax</li>
+        <li>A code editor (like VS Code, PyCharm, or even IDLE if you’re brave)</li>
+    </ul>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

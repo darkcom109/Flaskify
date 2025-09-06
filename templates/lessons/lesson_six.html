@@ -1,1 +1,90 @@
 {% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 6: Flash Messages & Feedback</h1>
+        <p class="lead">In this lesson, you’ll learn how to use Flask’s <code>flash()</code> function to send feedback messages to the user after an action like submitting a form.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Setting Up Flash Messages</h3>
+    <pre><code>
+    # app.py
+    from flask import Flask, render_template, request, flash, redirect, url_for
+
+    app = Flask(__name__)
+    app.secret_key = "supersecret"  # Needed for flashing messages
+
+    @app.route("/feedback", methods=["GET", "POST"])
+    def feedback():
+        if request.method == "POST":
+            name = request.form["username"]
+            if name:
+                flash(f"Thanks for submitting, {name}!")
+                return redirect(url_for("feedback"))
+            else:
+                flash("Name cannot be empty!", "error")
+                return redirect(url_for("feedback"))
+        return render_template("feedback.html")
+    </code></pre>
+
+    <p>
+        <code>flash()</code> stores a message that will be shown to the user on the next page load.  
+        Messages only appear once and then disappear (like a notification).
+    </p>
+
+    <h3>Step 2: Displaying Flash Messages in Templates</h3>
+    <pre><code>
+    &lt;h1&gt;Feedback Form&lt;/h1&gt;
+
+    &lt;form method="POST"&gt;
+        &lt;input type="text" name="username" placeholder="Enter your name"&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+
+    {% raw %}{% with messages = get_flashed_messages(with_categories=true) %}{% endraw %}
+        {% raw %}{% if messages %}{% endraw %}
+            &lt;ul&gt;
+                {% raw %}{% for category, message in messages %}{% endraw %}
+                    &lt;li&gt;&lt;strong&gt;{{ "{{ category }}" }}:&lt;/strong&gt; {{ "{{ message }}" }}&lt;/li&gt;
+                {% raw %}{% endfor %}{% endraw %}
+            &lt;/ul&gt;
+        {% raw %}{% endif %}{% endraw %}
+    {% raw %}{% endwith %}{% endraw %}
+    </code></pre>
+
+    <p>
+        The function <code>get_flashed_messages()</code> retrieves all flashed messages.  
+        By default, you only get the text, but with <code>with_categories=True</code>, you can group messages by type (like <code>success</code> or <code>error</code>).
+    </p>
+
+    <h3>Step 3: Styling Flash Messages with Bootstrap</h3>
+    <pre><code>
+    {% raw %}{% for category, message in get_flashed_messages(with_categories=true) %}{% endraw %}
+        &lt;div class="alert alert-{{ "{{ 'danger' if category == 'error' else 'success' }}" }} mt-2"&gt;
+            {{ "{{ message }}" }}
+        &lt;/div&gt;
+    {% raw %}{% endfor %}{% endraw %}
+    </code></pre>
+
+    <p>
+        Bootstrap has built-in alert classes like <code>alert-success</code> and <code>alert-danger</code>.  
+        You can map your flash categories to these classes for polished feedback messages.
+    </p>
+
+    <h3>Step 4: Example Flow</h3>
+    <ol>
+        <li>User visits <code>/feedback</code>.</li>
+        <li>User submits their name.</li>
+        <li>If the input is valid → Flask flashes a green “Thanks for submitting!” message.</li>
+        <li>If the input is empty → Flask flashes a red “Name cannot be empty!” error message.</li>
+        <li>Page reloads and shows the feedback message once.</li>
+    </ol>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

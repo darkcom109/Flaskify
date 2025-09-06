@@ -146,10 +146,10 @@ def lesson_five():
 def lesson_six():
     return render_template("/lessons/lesson_six.html")
 
-@app.route('/dashboard/lesson_seven')
+@app.route('/dashboard/project_one')
 @login_required
-def lesson_seven():
-    return render_template("/lessons/lesson_seven.html")
+def project_one():
+    return render_template("/lessons/project_one.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

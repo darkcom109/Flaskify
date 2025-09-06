@@ -1,1 +1,96 @@
 {% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 4: Static Files</h1>
+        <p class="lead">In this lesson, you’ll learn how to use Flask’s <code>static/</code> folder to serve CSS, JavaScript, and images.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Are Static Files?</h3>
+    <p>
+        Static files are assets that don’t change while your app is running — things like <strong>CSS</strong> (styling), 
+        <strong>JavaScript</strong> (interactivity), and <strong>images</strong>.  
+        Flask automatically looks for these files inside a folder called <code>static/</code>.
+    </p>
+
+    <h3>Step 2: Creating the Static Folder</h3>
+    <pre><code>
+        your_project/
+        │── app.py
+        │── templates/
+        │    └── home.html
+        └── static/
+            ├── style.css
+            └── logo.png
+    </code></pre>
+
+    <p>
+        Create a folder named <code>static</code> in the same directory as <code>app.py</code>.  
+        Place your CSS, images, or JavaScript files inside this folder.
+    </p>
+
+    <h3>Step 3: Linking CSS in a Template</h3>
+    <pre><code>
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;My Flask App&lt;/title&gt;
+            &lt;link rel="stylesheet" href="{{ "{{ url_for('static', filename='style.css') }}" }}">
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Hello, Flaskify!&lt;/h1&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    </code></pre>
+
+    <pre><code>
+        /* static/style.css */
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #6a1b9a;
+        }
+    </code></pre>
+
+    <p>
+        Use <code>url_for('static', filename='...')</code> to safely link to files in your <code>static/</code> folder.  
+        In this example, the CSS will style your background and heading.
+    </p>
+
+    <h3>Step 4: Adding an Image</h3>
+    <pre><code>
+        &lt;img src="{{ "{{ url_for('static', filename='logo.png') }}" }}" alt="Flaskify Logo"&gt;
+    </code></pre>
+
+    <p>
+        Place <code>logo.png</code> in the <code>static/</code> folder.  
+        When you reload your page, Flask will serve the image from <code>/static/logo.png</code>.
+    </p>
+
+    <h3>Step 5: Adding JavaScript (Optional)</h3>
+    <pre><code>
+        &lt;script src="{{ "{{ url_for('static', filename='app.js') }}" }}"&gt;&lt;/script&gt;
+    </code></pre>
+
+    <pre><code>
+        // static/app.js
+        alert("Welcome to Flaskify!");
+    </code></pre>
+
+    <p>
+        Just like CSS, you can load JavaScript files from the <code>static/</code> folder.  
+        Try refreshing your page to see the alert.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

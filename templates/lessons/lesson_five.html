@@ -1,1 +1,95 @@
 {% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 5: Forms & User Input</h1>
+        <p class="lead">In this lesson, you’ll learn how to build HTML forms, send data to Flask, and display user input back on the page.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Creating a Simple Form</h3>
+    <pre><code>
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;Flask Form Example&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Enter Your Name&lt;/h1&gt;
+            &lt;form method="POST"&gt;
+                &lt;input type="text" name="username" placeholder="Your name"&gt;
+                &lt;button type="submit"&gt;Submit&lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    </code></pre>
+
+    <p>
+        This form has an input box where the user can type their name.  
+        The <code>method="POST"</code> tells Flask to expect data when the form is submitted.
+    </p>
+
+    <h3>Step 2: Handling Form Data in Flask</h3>
+    <pre><code>
+        # app.py
+        from flask import Flask, render_template, request
+
+        app = Flask(__name__)
+
+        @app.route("/form", methods=["GET", "POST"])
+        def form():
+            if request.method == "POST":
+                name = request.form["username"]
+                return f"Hello, {name}!"
+            return render_template("form.html")
+    </code></pre>
+
+    <p>
+        Flask provides the <code>request</code> object to access form data.  
+        Here, <code>request.form["username"]</code> grabs whatever the user typed into the input field.  
+        If it’s a GET request (when you first load the page), Flask just shows the form.  
+        If it’s a POST request (after submitting), Flask returns a greeting.
+    </p>
+
+    <h3>Step 3: Rendering a Template with User Input</h3>
+    <pre><code>
+        # app.py
+        @app.route("/greet", methods=["GET", "POST"])
+        def greet():
+            if request.method == "POST":
+                name = request.form["username"]
+                return render_template("greet.html", name=name)
+            return render_template("form.html")
+    </code></pre>
+
+    <pre><code>
+        &lt;h1&gt;Hello, {{ "{{ name }}" }}!&lt;/h1&gt;
+        &lt;p&gt;Welcome to Flaskify.&lt;/p&gt;
+    </code></pre>
+
+    <p>
+        Instead of returning plain text, Flask can pass the user’s input into another template.  
+        Jinja inserts the variable with <code>{{ "{{ name }}" }}</code>, so the user sees their own name on the page.
+    </p>
+
+    <h3>Step 4: Adding More Fields</h3>
+    <pre><code>
+        &lt;form method="POST"&gt;
+        &lt;input type="text" name="username" placeholder="Your name"&gt;&lt;br&gt;
+        &lt;input type="email" name="email" placeholder="Your email"&gt;&lt;br&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+    </code></pre>
+
+    <p>
+        You can add as many fields as you like: text, email, password, checkboxes, etc.  
+        Flask will collect all of them in <code>request.form</code>.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

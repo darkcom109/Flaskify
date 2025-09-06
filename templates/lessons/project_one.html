@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 7: Capstone Project – Mini Blog</h1>
+        <p class="lead">In this final beginner project, you’ll bring together everything you’ve learned to build a simple blog where users can post messages and see them on the homepage.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Project Idea</h3>
+    <p>
+        The goal is to build a <strong>mini blog</strong> where:
+    </p>
+    <ul>
+        <li>The homepage shows all posts.</li>
+        <li>A form lets users add a new post (title + content).</li>
+        <li>New posts appear instantly on the homepage.</li>
+        <li>Flash messages confirm when posts are added or if something is missing.</li>
+    </ul>
+
+    <h3>Step 2: Setting Up Routes</h3>
+    <pre><code>
+    # app.py
+    from flask import Flask, render_template, request, redirect, url_for, flash
+
+    app = Flask(__name__)
+    app.secret_key = "supersecret"
+
+    posts = []  # store posts in memory for now
+
+    @app.route("/")
+    def index():
+        return render_template("index.html", posts=posts)
+
+    @app.route("/new", methods=["GET", "POST"])
+    def new_post():
+        if request.method == "POST":
+            title = request.form["title"]
+            content = request.form["content"]
+
+            if not title or not content:
+                flash("Both title and content are required!", "error")
+            else:
+                posts.append({"title": title, "content": content})
+                flash("Post added successfully!", "success")
+                return redirect(url_for("index"))
+
+        return render_template("new.html")
+    </code></pre>
+
+    <p>
+        We keep posts in a Python list called <code>posts</code>.  
+        In a real app, these would go into a database, but this is enough for now.
+    </p>
+
+    <h3>Step 3: Homepage Template</h3>
+    <pre><code>
+    &lt;h1&gt;Mini Blog&lt;/h1&gt;
+
+    {% raw %}{% for category, message in get_flashed_messages(with_categories=true) %}{% endraw %}
+        &lt;div class="alert alert-{{ "{{ 'danger' if category == 'error' else 'success' }}" }}"&gt;
+            {{ "{{ message }}" }}
+        &lt;/div&gt;
+    {% raw %}{% endfor %}{% endraw %}
+
+    {% raw %}{% if posts %}{% endraw %}
+        {% raw %}{% for post in posts %}{% endraw %}
+            &lt;div class="card mb-3"&gt;
+                &lt;div class="card-body"&gt;
+                    &lt;h3 class="card-title"&gt;{{ "{{ post.title }}" }}&lt;/h3&gt;
+                    &lt;p class="card-text"&gt;{{ "{{ post.content }}" }}&lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        {% raw %}{% endfor %}{% endraw %}
+    {% raw %}{% else %}{% endraw %}
+        &lt;p&gt;No posts yet! Why not &lt;a href="{{ "{{ url_for('new_post') }}" }}"&gt;add one&lt;/a&gt;?&lt;/p&gt;
+    {% raw %}{% endif %}{% endraw %}
+    </code></pre>
+
+    <p>
+        The homepage loops through <code>posts</code> and displays each one in a Bootstrap card.  
+        If there are no posts, it shows a helpful message.
+    </p>
+
+    <h3>Step 4: New Post Template</h3>
+    <pre><code>
+    &lt;h1&gt;Create a New Post&lt;/h1&gt;
+
+    &lt;form method="POST"&gt;
+    
+        &lt;div class="mb-3"&gt;
+            &lt;input type="text" name="title" class="form-control" placeholder="Post title"&gt;
+        &lt;/div&gt;
+
+        &lt;div class="mb-3"&gt;
+            &lt;textarea name="content" class="form-control" rows="4" placeholder="Write your post..."&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+
+        &lt;button type="submit" class="btn button-bg-style"&gt;Add Post&lt;/button&gt;
+    &lt;/form&gt;
+    </code></pre>
+
+    <p>
+        This form collects a title and some content, then sends it to Flask via POST.  
+        If the fields are empty, Flask shows an error flash message. Otherwise, it adds the post and redirects home.
+    </p>
+
+    <h3>Step 5: Try It Out</h3>
+    <ol>
+        <li>Go to <code>/new</code> and create a post.</li>
+        <li>You’ll see a success flash message and be redirected to the homepage.</li>
+        <li>Your new post will appear at the top of the list.</li>
+        <li>Try leaving a field empty to see the error message.</li>
+    </ol>
+
+    <h3>Step 6: Challenge Yourself</h3>
+    <ul>
+        <li>Style your blog with CSS in <code>static/style.css</code>.</li>
+        <li>Add a timestamp to each post.</li>
+        <li>Create a <code>/about</code> page describing your blog.</li>
+        <li>Try adding a route to delete posts.</li>
+    </ul>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

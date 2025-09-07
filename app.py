@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from datetime import datetime, timezone
 from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from wtforms.widgets import TextArea
 
 app = Flask(__name__)
 # Add Database
@@ -19,6 +20,15 @@ app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
 # Initialise database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Blog Post Model
+class Posts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(999))
+    content = db.Column(db.Text)
+    author = db.Column(db.String(999))
+    date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    slug = db.Column(db.String(255))
 
 # Create User Model
 class Users(db.Model, UserMixin):
@@ -56,6 +66,37 @@ class UpdateForm(FlaskForm):
     bio = StringField("Profile Description", validators=[DataRequired()])
     aspiring_job = StringField("Aspiring Position")
     submit = SubmitField("Submit")
+
+class PostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    content = StringField("Content", validators=[DataRequired()], widget=TextArea())
+    author = StringField("Author", validators=[DataRequired()])
+    slug = StringField("Slug", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+# Add Post Page
+@app.route('/add-post', methods=['GET', 'POST'])
+def add_post():
+    form = PostForm()
+
+    if form.validate_on_submit():
+        post = Posts(title=form.title.data,
+                     content=form.content.data,
+                     author=form.author.data,
+                     slug=form.slug.data)
+        # Clear form
+        form.title.data = ''
+        form.content.data = ''
+        form.author.data = ''
+        form.slug.data = ''
+        # Add post data to db
+        db.session.add(post)
+        db.session.commit()
+
+        flash("Blog Post Submitted Successfully", "success")
+        return redirect(url_for('add_post'))
+    
+    return render_template("add_post.html", form=form)
 
 @login_manager.user_loader
 def load_user(user_id):

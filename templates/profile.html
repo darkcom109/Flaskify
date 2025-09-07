@@ -42,10 +42,17 @@
     </a>
   </div>
 
+  
   <div class="text-center mb-5">
-    <h1 class="font-for-text">Community Posts</h1>
-    <p class="font-for-text text-muted fs-5">Join the conversation, share your thoughts.</p>
+    <h1 class="font-for-text">Your Community Posts</h1>
+    <p class="font-for-text text-muted fs-5">View, Edit or Delete Your Posts Here</p>
   </div>
+
+  {% if not posts %}
+    <div class="d-flex justify-content-center mb-4">
+        <a class="font-for-text text-white btn button-bg-style" href="{{url_for('add_post')}}">You currently have no posts...</a>
+    </div>
+  {% endif %}
 
   <div class="d-flex flex-column align-items-center gap-4 font-for-text">
     {% for post in posts %}
@@ -55,7 +62,7 @@
         
         <div class="d-flex justify-content-between text-muted small mb-3">
           <span>By {{ post.author }}</span>
-          <span>{{ post.date_posted }}</span>
+          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
         </div>
         <div class="d-flex flex-row gap-2">
             <div class="">

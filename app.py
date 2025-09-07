@@ -121,7 +121,7 @@ def edit_post(id):
     form.slug.data = post.slug
     form.content.data = post.content
 
-    return render_template("posts.html", form=form)
+    return render_template("edit_post.html", form=form)
 
 # Add Post Page
 @app.route('/add-post', methods=['GET', 'POST'])

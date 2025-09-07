@@ -1,6 +1,7 @@
 # Flaskify  
 
-A Flask-based web application that provides user authentication, profile management, and a learning dashboard with lessons and progress tracking.  
+A Flask-based web application that provides user authentication, profile management, and a learning dashboard with lessons and progress tracking.
+Flaskify enables users to be able to learn Flask, through Flask and built with Flask.
 
 ## Features  
 

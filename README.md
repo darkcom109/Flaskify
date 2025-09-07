@@ -11,7 +11,8 @@ Flaskify enables users to be able to learn Flask, through Flask and built with F
 
 - 👤 **User Profiles**  
   - Update personal information (name, email, bio, aspiring job)  
-  - Upload and display profile pictures  
+  - Upload and display profile pictures
+  - Make and view other people's community posts
 
 - 📚 **Learning Dashboard**  
   - Accordion-style lesson modules  

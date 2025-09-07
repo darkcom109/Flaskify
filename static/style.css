@@ -65,8 +65,16 @@ pre {
 }
 
 .post-container-styling {
-    border: 1px solid gray;
-    border-radius: 15px;
-    padding: 15px;
-    width: 600px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 700px; /* lets it breathe on wider screens */
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+.post-container-styling:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+

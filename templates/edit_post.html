@@ -23,26 +23,23 @@
 {% endblock %}
 
 {% block section %}
-  <div class="text-center mb-5">
-    <h1 class="font-for-text">Community Posts</h1>
-    <p class="font-for-text text-muted fs-5">Join the conversation, share your thoughts.</p>
-  </div>
+  <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
+        <h1 class="text-center">Edit Blog</h1>
+        <br>
+        <form method="POST" class="d-flex flex-column gap-2">
+            {{ form.hidden_tag() }}
 
-  <div class="d-flex flex-column align-items-center gap-4 font-for-text">
-      <div class="post-container-styling bg-white shadow-sm">
-        <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
-        <p class="fs-5 text-secondary mb-3">{{ post.content }}</p>
-        
-        <div class="d-flex justify-content-between text-muted small mb-3">
-          <span>By {{ post.author }}</span>
-          <span>{{ post.date_posted }}</span>
-        </div>
-
-        <div class="text-end">
-          <a class="btn btn-sm btn-outline-primary" href="{{ url_for('posts') }}">
-            Back to Blog
-          </a>
-        </div>
-      </div>
-  </div>
+            {{ form.title.label(class="") }}
+            {{ form.title(class="form-control") }}
+            {{ form.author.label(class="")}}
+            {{ form.author(class="form-control") }}
+            {{ form.slug.label(class="")}}
+            {{ form.slug(class="form-control") }}
+            {{ form.content.label(rows="10")}}
+            {{ form.content(class="form-control") }}
+            <div class="d-flex justify-content-center">
+                {{ form.submit(class="btn button-bg-style margin-top-styling") }}
+            </div>
+        </form>
+    </div>
 {% endblock %}

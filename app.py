@@ -74,18 +74,34 @@ class PostForm(FlaskForm):
     slug = StringField("Slug", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
+@app.route('/posts/delete/<int:id>')
+@login_required
+def delete_post(id):
+    post = Posts.query.get_or_404(id)
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        flash("Blog post was Deleted", "success")
+        return redirect(url_for('posts'))
+    except:
+        flash("There was a Problem Deleting the post", "danger")
+        return redirect(url_for('posts'))
+
 @app.route('/posts')
+@login_required
 def posts():
     # Grab all posts from DB
     posts = Posts.query.order_by(Posts.date_posted)
     return render_template("posts.html", posts=posts)
 
 @app.route('/posts/<int:id>')
+@login_required
 def post(id):
     post = Posts.query.get_or_404(id)
     return render_template("post.html", post=post)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
 def edit_post(id):
     post = Posts.query.get_or_404(id)
     form = PostForm()
@@ -105,10 +121,11 @@ def edit_post(id):
     form.slug.data = post.slug
     form.content.data = post.content
 
-    return render_template("edit_post.html", form=form)
+    return render_template("posts.html", form=form)
 
 # Add Post Page
 @app.route('/add-post', methods=['GET', 'POST'])
+@login_required
 def add_post():
     form = PostForm()
 
@@ -127,7 +144,7 @@ def add_post():
         db.session.commit()
 
         flash("Blog Post Submitted Successfully", "success")
-        return redirect(url_for('add_post'))
+        return redirect(url_for('posts'))
     
     return render_template("add_post.html", form=form)
 
@@ -200,6 +217,7 @@ def profile():
 
 # Update database record
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update(id):
     form = UpdateForm()
     name_to_update = Users.query.get_or_404(id)
@@ -211,7 +229,7 @@ def update(id):
         try:
             db.session.commit()
             flash("User updated successfully!", "success")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("profile"))
         except:
             flash("Error, try again!", "danger")
             return render_template("update.html", form=form, name_to_update=name_to_update)

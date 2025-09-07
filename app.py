@@ -73,7 +73,8 @@ def add_post():
         post = Posts(title=form.title.data,
                      content=form.content.data,
                      author=form.author.data,
-                     slug=form.slug.data)
+                     slug=form.slug.data,
+                     user_id=current_user.id)
         # Clear form
         form.title.data = ''
         form.content.data = ''
@@ -154,7 +155,7 @@ def login():
 @login_required
 def profile():
     posts = (Posts.query
-             .filter_by(id=current_user.id)     # only YOUR posts
+             .filter_by(user_id = current_user.id)     # only YOUR posts
              .order_by(Posts.date_posted.desc())     # newest first, because we live in 2025
              .all())
     return render_template("profile.html", current_user=current_user, posts=posts)

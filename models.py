@@ -18,6 +18,7 @@ class Posts(db.Model):
     author = db.Column(db.String(999))
     date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     slug = db.Column(db.String(255))
+    user_id = db.Column(db.Integer)
 
 # Create User Model
 class Users(db.Model, UserMixin):

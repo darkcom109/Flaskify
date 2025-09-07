@@ -23,23 +23,18 @@
 {% endblock %}
 
 {% block section %}
-    <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
-        <h1 class="text-center">Add Blog Post</h1>
-        <br>
-        <form method="POST" class="d-flex flex-column gap-2">
-            {{ form.hidden_tag() }}
+    <h1 class="font-for-text text-center">Community Posts</h1>
+    <p class="font-for-text text-center fs-6">Interact with other people</p>
 
-            {{ form.title.label(class="") }}
-            {{ form.title(class="form-control") }}
-            {{ form.author.label(class="")}}
-            {{ form.author(class="form-control") }}
-            {{ form.slug.label(class="")}}
-            {{ form.slug(class="form-control") }}
-            {{ form.content.label(rows="10")}}
-            {{ form.content(class="form-control") }}
-            <div class="d-flex justify-content-center">
-                {{ form.submit(class="btn button-bg-style margin-top-styling") }}
-            </div>
-        </form>
+    <div class="d-flex flex-column align-items-center gap-5 font-for-text">
+    {% for post in posts %}
+        <div class="bg-light shadow-sm post-container-styling">
+            <h3>{{post.title}}</h3><hr>
+            <p class="fs-5">{{post.content}}</p><hr>
+            <div>Post made by {{post.author}}</div>
+            <div>Posted on {{post.date_posted}}</div>
+            <a class="btn-sm btn-outline-secondary" href="{{url_for('post', id=post.id)}}">View Post</a>
+        </div>
+    {% endfor %}
     </div>
 {% endblock %}

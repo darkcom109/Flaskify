@@ -7,6 +7,9 @@
                 <a class="nav-link active" aria-current="page" href="{{url_for('dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{url_for('posts')}}">Community</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{url_for('add_post')}}">Add Post</a>
             </li>
             <li class="nav-item">
@@ -21,10 +24,10 @@
 
 {% block section %}
 <div class="container font-for-text">
-    <h1 class="font-for-text text-center">Your Dashboard</h1>
-    <p class="font-for-text text-center fs-6">Your Progress</p>
+    <h1 class="text-center">Your Dashboard</h1>
+    <p class="text-center fs-6">Your Progress</p>
 
-    <div class="progress mb-4 font-for-text me-auto ms-auto" style="height: 20px; width: 50%">
+    <div class="progress mb-4 me-auto ms-auto" style="height: 20px; width: 50%">
         <div id="progress-bar" class="progress-bar progress-bar-styling" role="progressbar" style="width:0%">
             0%
         </div>

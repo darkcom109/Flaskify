@@ -213,7 +213,11 @@ def login():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template("profile.html", current_user=current_user)
+    posts = (Posts.query
+             .filter_by(id=current_user.id)     # only YOUR posts
+             .order_by(Posts.date_posted.desc())     # newest first, because we live in 2025
+             .all())
+    return render_template("profile.html", current_user=current_user, posts=posts)
 
 # Update database record
 @app.route('/update/<int:id>', methods=['GET', 'POST'])

@@ -31,12 +31,12 @@
 
             {{ form.title.label(class="") }}
             {{ form.title(class="form-control") }}
+            {{ form.content.label(rows="10")}}
+            {{ form.content(class="form-control") }}
             {{ form.author.label(class="")}}
             {{ form.author(class="form-control") }}
             {{ form.slug.label(class="")}}
             {{ form.slug(class="form-control") }}
-            {{ form.content.label(rows="10")}}
-            {{ form.content(class="form-control") }}
             <div class="d-flex justify-content-center">
                 {{ form.submit(class="btn button-bg-style margin-top-styling") }}
             </div>

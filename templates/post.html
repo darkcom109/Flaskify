@@ -35,10 +35,10 @@
         
         <div class="d-flex justify-content-between text-muted small mb-3">
           <span>By {{ post.author }}</span>
-          <span>{{ post.date_posted }}</span>
+          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
         </div>
 
-        <div class="text-end">
+        <div>
           <a class="btn btn-sm btn-outline-primary" href="{{ url_for('posts') }}">
             Back to Blog
           </a>

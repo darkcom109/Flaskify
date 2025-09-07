@@ -1,18 +1,78 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired
 import os
-from flask_login import LoginManager, login_user, login_required, current_user, logout_user
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from datetime import datetime, timezone
+from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm
-from models import Posts, Users, db, app
+from wtforms.widgets import TextArea
+
+app = Flask(__name__)
+# Add Database
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///users.db"
 
 # Secret key
 app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
+
+# Initialise database
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+# Blog Post Model
+class Posts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(999))
+    content = db.Column(db.Text)
+    author = db.Column(db.String(999))
+    date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    slug = db.Column(db.String(255))
+
+# Create User Model
+class Users(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False, unique=True)
+    password = db.Column(db.String(200), nullable=False)
+    date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    bio = db.Column(db.String(9999), default="Hello, I am using Flaskify!")
+    profile_picture = db.Column(db.String(9999))
+    aspiring_job = db.Column(db.String(9999))
 
 # Initialise LoginManager
 login_manager = LoginManager(app)
 
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
+
+# Create a sign-up form class
+class SignUpForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+# Create a login form class
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+class UpdateForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    bio = StringField("Profile Description", validators=[DataRequired()])
+    aspiring_job = StringField("Aspiring Position")
+    submit = SubmitField("Submit")
+
+class PostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    content = StringField("Content", validators=[DataRequired()], widget=TextArea())
+    author = StringField("Author", validators=[DataRequired()])
+    slug = StringField("Slug", validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 @app.route('/posts/delete/<int:id>')
 @login_required

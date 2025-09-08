@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+    <h2>You searched For...</h2>
+    <p>{{ searched }}</p>
+{% endblock %}

@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, request
 import os
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm
+from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm, SearchForm
 from models import Posts, Users, db, app
 
 # Secret key
@@ -13,6 +13,20 @@ login_manager = LoginManager(app)
 
 login_manager.login_view = "login"
 login_manager.login_message_category = "info"
+
+@app.context_processor
+def base():
+    form = SearchForm()
+    return dict(form=form)
+
+@app.route('/search', methods=["POST"])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        post.searched = form.searched.data
+        return render_template("search.html", form=form, searched=post.searched)
+    
+    pass
 
 @app.route('/posts/delete/<int:id>')
 @login_required
@@ -44,10 +58,12 @@ def post(id):
 @login_required
 def edit_post(id):
     post = Posts.query.get_or_404(id)
+    if current_user.id != post.user_id:
+        flash("You cannot access this page", "danger")
+        return redirect(url_for('dashboard'))
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.author = form.author.data
         post.slug = form.slug.data
         post.content = form.content.data
         # Update db
@@ -57,7 +73,6 @@ def edit_post(id):
         return redirect(url_for('post', id=post.id))
     
     form.title.data = post.title
-    form.author.data = post.author
     form.slug.data = post.slug
     form.content.data = post.content
 
@@ -72,13 +87,12 @@ def add_post():
     if form.validate_on_submit():
         post = Posts(title=form.title.data,
                      content=form.content.data,
-                     author=form.author.data,
+                     author=current_user.name,
                      slug=form.slug.data,
                      user_id=current_user.id)
         # Clear form
         form.title.data = ''
         form.content.data = ''
-        form.author.data = ''
         form.slug.data = ''
         # Add post data to db
         db.session.add(post)
@@ -155,8 +169,8 @@ def login():
 @login_required
 def profile():
     posts = (Posts.query
-             .filter_by(user_id = current_user.id)     # only YOUR posts
-             .order_by(Posts.date_posted.desc())     # newest first, because we live in 2025
+             .filter_by(user_id = current_user.id)
+             .order_by(Posts.date_posted.desc())
              .all())
     return render_template("profile.html", current_user=current_user, posts=posts)
 
@@ -164,6 +178,9 @@ def profile():
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update(id):
+    if current_user.id != id:
+        flash("You cannot access this page", "danger")
+        return redirect(url_for('dashboard'))
     form = UpdateForm()
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":

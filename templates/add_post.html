@@ -1,25 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navigation_items %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto gap-2">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('dashboard')}}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('posts')}}">Community</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('add_post')}}">Add Post</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('profile')}}">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Logout</a>
-            </li>
-        </ul>
-    </div>
+    {% include 'components/nav_component.html' %}
 {% endblock %}
 
 {% block section %}
@@ -33,8 +15,6 @@
             {{ form.title(class="form-control") }}
             {{ form.content.label(rows="10")}}
             {{ form.content(class="form-control") }}
-            {{ form.author.label(class="")}}
-            {{ form.author(class="form-control") }}
             {{ form.slug.label(class="")}}
             {{ form.slug(class="form-control") }}
             <div class="d-flex justify-content-center">

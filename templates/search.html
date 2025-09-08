@@ -5,6 +5,44 @@
 {% endblock %}
 
 {% block section %}
-    <h2>You searched For...</h2>
-    <p>{{ searched }}</p>
+    <h1 class="font-for-text text-center">Searches for {{searched}}</h1>
+
+    <div class="d-flex justify-content-center align-items-center">
+        {% if not posts %}
+            <h2 class="font-for-text text-muted" style="margin-top: 100px;">No results for: {{ searched }}</h2>
+        {% endif %}
+    </div>
+    <div class="d-flex flex-column align-items-center gap-4 font-for-text">
+    {% for post in posts %}
+      <div class="post-container-styling bg-white shadow-sm">
+        <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
+        <p class="fs-5 text-secondary mb-3">{{ post.content }}</p>
+        
+        <div class="d-flex justify-content-between text-muted small mb-3">
+          <span>By {{ post.author }}</span>
+          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+        </div>
+        <div class="d-flex flex-row gap-2">
+            <div class="">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('post', id=post.id) }}">
+                    View Post
+                </a>
+            </div>
+            <!--
+            <div class="">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_post', id=post.id) }}">
+                    Edit Post
+                </a>
+            </div>
+
+            <div class="">
+                <a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_post', id=post.id) }}">
+                    Delete Post
+                </a>
+            </div>
+            -->
+        </div>
+      </div>
+    {% endfor %}
+    </div>
 {% endblock %}

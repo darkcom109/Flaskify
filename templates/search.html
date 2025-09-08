@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block section %}
-    <h1 class="font-for-text text-center">Searches for {{searched}}</h1>
+    <div class="text-center mb-5">
+        <h1 class="font-for-text">Searches</h1>
+        <p class="font-for-text text-muted fs-5">You Searched for: {{ searched }}</p>
+    </div>
 
     <div class="d-flex justify-content-center align-items-center">
         {% if not posts %}
-            <h2 class="font-for-text text-muted" style="margin-top: 100px;">No results for: {{ searched }}</h2>
+            <h2 class="font-for-text text-muted" style="margin-top: 90px;">No results for: {{ searched }}</h2>
         {% endif %}
     </div>
     <div class="d-flex flex-column align-items-center gap-4 font-for-text">

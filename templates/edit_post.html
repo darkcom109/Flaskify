@@ -21,5 +21,7 @@
                 {{ form.submit(class="btn button-bg-style margin-top-styling") }}
             </div>
         </form>
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='content') }}
     </div>
 {% endblock %}

@@ -40,7 +40,7 @@
     {% for post in posts %}
       <div class="post-container-styling bg-white shadow-sm">
         <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
-        <p class="fs-5 text-secondary mb-3">{{ post.content }}</p>
+        <p class="fs-5 text-secondary mb-3">{{ post.content|safe }}</p>
         
         <div class="d-flex justify-content-between text-muted small mb-3">
           <span>By {{ post.author }}</span>

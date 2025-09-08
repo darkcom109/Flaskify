@@ -30,5 +30,5 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String(200), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     bio = db.Column(db.String(9999), default="Hello, I am using Flaskify!")
-    profile_picture = db.Column(db.String(9999))
+    profile_pic = db.Column(db.String(), default="https://static.vecteezy.com/system/resources/previews/036/280/650/large_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg")
     aspiring_job = db.Column(db.String(9999))

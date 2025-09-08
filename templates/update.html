@@ -8,9 +8,11 @@
     <div class="container container-fluid font-for-text" style="outline: 1px solid gainsboro; border-radius: 10px; padding-block: 30px; width: 500px; gap: 30px;">
         <h1 class="text-center">Update Profile</h1>
         <br>
-        <form action="/update/{{ name_to_update.id }}" method="POST" class="d-flex flex-column gap-2">
+        <form action="/update/{{ name_to_update.id }}" method="POST" class="d-flex flex-column gap-2" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 
+            {{ form.profile_pic.label(class="")}}
+            {{ form.profile_pic(class="form-control", value=name_to_update.bio) }}
             {{ form.name.label(class="") }}
             {{ form.name(class="form-control", value=name_to_update.name) }}
             {{ form.email.label(class="")}}

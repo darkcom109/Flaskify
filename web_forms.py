@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
-from wtforms.widgets import TextArea
 from flask_ckeditor import CKEditorField
+from flask_wtf.file import FileField
 
 # Create a sign-up form class
 class SignUpForm(FlaskForm):
@@ -22,6 +22,7 @@ class UpdateForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     bio = StringField("Profile Description", validators=[DataRequired()])
     aspiring_job = StringField("Aspiring Position")
+    profile_pic = FileField("Profile Pic")
     submit = SubmitField("Submit")
 
 class PostForm(FlaskForm):

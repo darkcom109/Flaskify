@@ -79,23 +79,25 @@ pre {
 }
 
 .profile-pic-wrapper {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 50%;
+  width: 120px;       /* adjust size */
+  height: 120px;
+  border-radius: 50%; /* makes the wrapper a circle */
+  overflow: hidden;   /* hides overflow so img stays inside circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0; /* optional fallback color */
+  transition: transform 0.2s ease;
   border: 3px solid #f0f0f0;
 }
 
-.profile-pic {
+.profile-pic-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  transition: transform 0.2s ease;
+  object-fit: cover;  /* scales & crops image to fill circle */
 }
 
-.profile-pic:hover {
+.profile-pic-wrapper:hover {
   transform: scale(1.05);
 }
-
 

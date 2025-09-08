@@ -19,14 +19,26 @@ def base():
     form = SearchForm()
     return dict(form=form)
 
-@app.route('/search', methods=["POST"])
+@app.route('/search', methods=['POST'])
+@login_required
 def search():
     form = SearchForm()
     if form.validate_on_submit():
-        post.searched = form.searched.data
-        return render_template("search.html", form=form, searched=post.searched)
-    
-    pass
+        searched = form.searched.data   # get text input
+        # Query posts by title OR content
+        results = Posts.query.filter(
+            Posts.title.ilike(f"%{searched}%") | Posts.content.ilike(f"%{searched}%")
+        ).order_by(Posts.date_posted.desc()).all()
+        
+        return render_template(
+            "search.html",
+            form=form,
+            searched=searched,
+            results=results
+        )
+    # If nothing was submitted or invalid form
+    flash("Please enter a search term", "warning")
+    return redirect(url_for("posts"))
 
 @app.route('/posts/delete/<int:id>')
 @login_required

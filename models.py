@@ -26,6 +26,7 @@ class Posts(db.Model):
     author = db.Column(db.String(999))
     date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     user_id = db.Column(db.Integer)
+    profile_picture = db.Column(db.String(), default=get_random_avatar())
 
 # Create User Model
 class Users(db.Model, UserMixin):

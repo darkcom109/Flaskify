@@ -1,70 +1,96 @@
 {% extends 'base.html' %}
 
 {% block navigation_items %}
-    {% include 'components/nav_component.html' %}
+  {% include 'components/nav_component.html' %}
 {% endblock %}
 
 {% block section %}
-  <div class="d-flex flex-column align-items-center text-center font-for-text mb-5">
-    <!-- Profile image -->
-    <div class="profile-pic-wrapper mb-3">
-      <img src="{{ current_user.profile_picture }}">
-    </div>
-
-    <!-- User info -->
-    <h1 class="fw-bold">Welcome back, {{ current_user.name.title() }}!</h1>
-    <p class="text-secondary mb-4">{{ current_user.aspiring_job }}</p>
-    <p class="text-muted fs-5 mb-2">{{ current_user.bio }}</p>
-
-    <!-- Edit profile button -->
-    <a href="{{ url_for('update', id=current_user.id) }}" class="btn btn-outline-primary px-4">
-      Edit Profile
-    </a>
-  </div>
-
-  
-  <div class="text-center mb-5">
-    <h1 class="font-for-text">Your Community Posts</h1>
-    <p class="font-for-text text-muted fs-5">View, Edit or Delete Your Posts Here</p>
-  </div>
-
-  {% if not posts %}
-    <div class="d-flex justify-content-center mb-4">
-        <a class="font-for-text text-white btn button-bg-style" href="{{url_for('add_post')}}">You currently have no posts...</a>
-    </div>
-  {% endif %}
-
-  <div class="d-flex flex-column align-items-center gap-4 font-for-text">
-    {% for post in posts %}
-      <div class="post-container-styling bg-white shadow-sm">
-        <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
-        <p class="fs-5 text-secondary mb-3">{{ post.content|safe }}</p>
-        
-        <div class="d-flex justify-content-between text-muted small mb-3">
-          <span>By {{ post.author }}</span>
-          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+<section class="container py-4 font-for-text">
+  <!-- Profile header -->
+  <div class="card border-0 shadow-sm mb-5">
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center gap-4 flex-column flex-md-row text-center text-md-start">
+        <!-- Avatar -->
+        <div class="flex-shrink-0">
+          <img
+            src="{{ current_user.profile_picture }}"
+            alt="{{ current_user.name }} profile picture"
+            class="rounded-circle border"
+            width="120" height="120"
+            loading="lazy"
+            style="object-fit: cover;"
+          >
         </div>
-        <div class="d-flex flex-row gap-2">
-            <div class="">
-                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('post', id=post.id) }}">
-                    View Post
-                </a>
-            </div>
 
-            <div class="">
-                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_post', id=post.id) }}">
-                    Edit Post
-                </a>
-            </div>
+        <!-- User info -->
+        <div class="flex-fill">
+          <h1 class="h3 mb-1 fw-bold">Welcome back, {{ current_user.name.title() }}!</h1>
+          {% if current_user.aspiring_job %}
+            <div class="text-secondary mb-2">{{ current_user.aspiring_job }}</div>
+          {% endif %}
+          {% if current_user.bio %}
+            <p class="text-muted mb-0">{{ current_user.bio }}</p>
+          {% endif %}
+        </div>
 
-            <div class="">
-                <a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_post', id=post.id) }}">
-                    Delete Post
-                </a>
-            </div>
+        <!-- Actions -->
+        <div class="d-flex gap-2">
+          <a href="{{ url_for('update', id=current_user.id) }}" class="btn btn-primary px-4" aria-label="Edit profile">
+            Edit Profile
+          </a>
+          <a href="{{ url_for('add_post') }}" class="btn btn-outline-secondary px-4" aria-label="Create a new post">
+            New Post
+          </a>
         </div>
       </div>
-    {% endfor %}
+    </div>
   </div>
 
+  <!-- Posts header -->
+  <header class="text-center mb-4">
+    <h2 class="h4 mb-1">Your Community Posts</h2>
+    <p class="text-muted">View, edit, or delete your posts.</p>
+  </header>
+
+  {% if not posts %}
+    <!-- Empty state -->
+    <div class="card border-0 shadow-sm text-center p-5">
+      <p class="mb-3">You haven't posted anything yet.</p>
+      <a class="btn btn-primary" href="{{ url_for('add_post') }}">Create your first post</a>
+    </div>
+  {% else %}
+    <!-- Posts grid -->
+    <div class="row g-4">
+      {% for post in posts %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 border-0 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5 fw-semibold mb-2">{{ post.title }}</h3>
+              <p class="text-secondary flex-grow-1 mb-3">{{ post.content|striptags|truncate(180, True) }}</p>
+
+              <div class="d-flex justify-content-between align-items-center text-muted small mb-3">
+                <span>By {{ post.author }}</span>
+                <time datetime="{{ post.date_posted.strftime('%Y-%m-%dT%H:%M:%S') }}">
+                  {{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}
+                </time>
+              </div>
+
+              <div class="d-flex gap-2 mt-auto">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('post', id=post.id) }}" aria-label="View post {{ post.title }}">
+                  View
+                </a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('edit_post', id=post.id) }}" aria-label="Edit post {{ post.title }}">
+                  Edit
+                </a>
+                <a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_post', id=post.id) }}" onclick="return confirm('Delete this post?')" aria-label="Delete post {{ post.title }}">
+                  Delete
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
 {% endblock %}

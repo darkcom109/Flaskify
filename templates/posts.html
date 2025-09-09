@@ -17,8 +17,16 @@
         <p class="fs-5 text-secondary mb-3">{{ post.content|safe }}</p>
         
         <div class="d-flex justify-content-between text-muted small mb-3">
-          <a>By {{ post.author }}</a>
-          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+            <img
+              src="{{ post.profile_picture }}"
+              alt="{{ current_user.name }} profile picture"
+              class="rounded-circle border me-3"
+              width="25" height="25"
+              loading="lazy"
+              style="object-fit: cover;"
+            >
+            <a>By {{ post.author }}</a>
+          <span class="ms-auto">{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
         </div>
         <div class="d-flex flex-row gap-2">
             <div class="">

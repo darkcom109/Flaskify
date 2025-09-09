@@ -55,6 +55,7 @@ def posts():
 @login_required
 def post(id):
     post = Posts.query.get_or_404(id)
+    post.profile_picture = (post.profile_picture)[0:7]
     return render_template("post.html", post=post)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
@@ -66,8 +67,8 @@ def edit_post(id):
         return redirect(url_for('dashboard'))
     form = PostForm()
     if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
+        post.title = form.title.data.trim()
+        post.content = form.content.data.trim()
         # Update db
         db.session.add(post)
         db.session.commit()
@@ -86,10 +87,11 @@ def add_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        post = Posts(title=form.title.data,
-                     content=form.content.data,
+        post = Posts(title=form.title.data.trim(),
+                     content=form.content.data.trim(),
                      author=current_user.name,
-                     user_id=current_user.id)
+                     user_id=current_user.id,
+                     profile_picture=current_user.profile_picture)
         # Clear form
         form.title.data = ''
         form.content.data = ''

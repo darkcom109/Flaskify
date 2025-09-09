@@ -9,12 +9,14 @@
       <div class="post-container-styling bg-white shadow-sm">
         <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
         <p class="fs-5 text-secondary mb-3">{{ post.content|safe }}</p>
-        
-        <div class="d-flex justify-content-between text-muted small mb-3">
-          <span>By {{ post.author }}</span>
-          <span>{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
-        </div>
 
+        <div class="d-flex justify-content-between text-muted small mb-3">
+            <a>By {{ post.author }}</a>
+          <span class="ms-auto">{{ post.date_posted.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+          <div class="flex-shrink-0">
+        </div>
+        </div>
+    
         <div>
           <a class="btn btn-sm btn-outline-primary" href="{{ url_for('posts') }}">
             Back to Blog

@@ -8,7 +8,7 @@
   <div class="d-flex flex-column align-items-center gap-4 font-for-text">
       <div class="post-container-styling bg-white shadow-sm">
         <h3 class="fw-semibold mb-2">{{ post.title }}</h3>
-        <p class="fs-5 text-secondary mb-3">{{ post.content|safe }}</p>
+        <p class="fs-5 text-secondary mb-3">{{ post.content | trim | safe }}</p>
 
         <div class="d-flex justify-content-between text-muted small mb-3">
             <a>By {{ post.author }}</a>

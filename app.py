@@ -39,10 +39,10 @@ def delete_post(id):
         db.session.delete(post)
         db.session.commit()
         flash("Blog post was Deleted", "success")
-        return redirect(url_for('posts'))
+        return redirect(url_for('profile'))
     except:
         flash("There was a Problem Deleting the post", "danger")
-        return redirect(url_for('posts'))
+        return redirect(url_for('profile'))
 
 @app.route('/posts')
 @login_required
@@ -67,8 +67,8 @@ def edit_post(id):
         return redirect(url_for('dashboard'))
     form = PostForm()
     if form.validate_on_submit():
-        post.title = form.title.data.trim()
-        post.content = form.content.data.trim()
+        post.title = form.title.data.strip()
+        post.content = form.content.data.strip()
         # Update db
         db.session.add(post)
         db.session.commit()
@@ -87,8 +87,8 @@ def add_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        post = Posts(title=form.title.data.trim(),
-                     content=form.content.data.trim(),
+        post = Posts(title=form.title.data.strip(),
+                     content=form.content.data.strip(),
                      author=current_user.name,
                      user_id=current_user.id,
                      profile_picture=current_user.profile_picture)

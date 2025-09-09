@@ -86,9 +86,8 @@ pre {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f0f0f0; /* optional fallback color */
-  transition: transform 0.2s ease;
-  border: 3px solid #f0f0f0;
+  background: #f0f0f0;
+  border: 0.5px solid gray; /* optional fallback color */
 }
 
 .profile-pic-wrapper img {
@@ -97,7 +96,4 @@ pre {
   object-fit: cover;  /* scales & crops image to fill circle */
 }
 
-.profile-pic-wrapper:hover {
-  transform: scale(1.05);
-}
 

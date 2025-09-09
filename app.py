@@ -3,15 +3,10 @@ import os
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm, SearchForm
-from models import Posts, Users, db, app
-from werkzeug.utils import secure_filename
-import uuid as uuid
-import os
+from models import Posts, Users, db, app, ckeditor
 
 # Secret key
 app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")
-UPLOAD_FOLDER = 'static/images'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Initialise LoginManager
 login_manager = LoginManager(app)
@@ -72,7 +67,6 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.slug = form.slug.data
         post.content = form.content.data
         # Update db
         db.session.add(post)
@@ -81,7 +75,6 @@ def edit_post(id):
         return redirect(url_for('post', id=post.id))
     
     form.title.data = post.title
-    form.slug.data = post.slug
     form.content.data = post.content
 
     return render_template("edit_post.html", form=form)
@@ -96,12 +89,10 @@ def add_post():
         post = Posts(title=form.title.data,
                      content=form.content.data,
                      author=current_user.name,
-                     slug=form.slug.data,
                      user_id=current_user.id)
         # Clear form
         form.title.data = ''
         form.content.data = ''
-        form.slug.data = ''
         # Add post data to db
         db.session.add(post)
         db.session.commit()
@@ -192,26 +183,15 @@ def update(id):
     form = UpdateForm()
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":
-        name_to_update.profile_pic = request.files['profile_pic']
         name_to_update.name = request.form['name']
         name_to_update.email = request.form['email']
         name_to_update.bio = request.form['bio']
         name_to_update.aspiring_job = request.form['aspiring_job']
-
-        pic_filename = secure_filename(name_to_update.profile_pic.filename)
-        pic_name = str(uuid.uuid1()) + "_" + pic_filename
-
-        saver = request.files['profile_pic']
-
-        name_to_update.profile_pic = pic_name
-
         try:
             db.session.commit()
-            saver.save(os.path.join(app.config['UPLOAD_FOLDER']), pic_name)
             flash("User updated successfully!", "success")
             return redirect(url_for("profile"))
         except:
-            db.session.rollback()
             flash("Error, try again!", "danger")
             return render_template("update.html", form=form, name_to_update=name_to_update)
     else:

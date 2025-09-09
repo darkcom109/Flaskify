@@ -4,6 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import Flask
 from flask_ckeditor import CKEditor
+import os, random
+
+AVATAR_FOLDER = "static/avatars"
+def get_random_avatar():
+    avatars = os.listdir(AVATAR_FOLDER)
+    return os.path.join("static/avatars", random.choice(avatars))
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
@@ -19,7 +25,6 @@ class Posts(db.Model):
     content = db.Column(db.Text)
     author = db.Column(db.String(999))
     date_posted = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-    slug = db.Column(db.String(255))
     user_id = db.Column(db.Integer)
 
 # Create User Model
@@ -29,6 +34,6 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(200), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-    bio = db.Column(db.String(9999), default="Hello, I am using Flaskify!")
-    profile_pic = db.Column(db.String(), default="https://static.vecteezy.com/system/resources/previews/036/280/650/large_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg")
+    bio = db.Column(db.String(9999))
+    profile_picture = db.Column(db.String(), default=get_random_avatar())
     aspiring_job = db.Column(db.String(9999))

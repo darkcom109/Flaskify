@@ -239,5 +239,42 @@ def lesson_six():
 def project_one():
     return render_template("/lessons/project_one.html")
 
+from flask import render_template
+
+# 400 – Bad Request
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template("errors/400.html"), 400
+
+# 401 – Unauthorized
+@app.errorhandler(401)
+def unauthorized(e):
+    return render_template("errors/401.html"), 401
+
+# 403 – Forbidden
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template("errors/403.html"), 403
+
+# 404 – Not Found
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("errors/404.html"), 404
+
+# 405 – Method Not Allowed
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return render_template("errors/405.html"), 405
+
+# 429 – Too Many Requests
+@app.errorhandler(429)
+def too_many_requests(e):
+    return render_template("errors/429.html"), 429
+
+# 500 – Internal Server Error
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("errors/500.html"), 500
+
 if __name__ == "__main__":
     app.run(debug=True)

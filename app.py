@@ -87,6 +87,14 @@ def add_post():
     form = PostForm()
 
     if form.validate_on_submit():
+
+        number_of_posts = Posts.query.filter_by(user_id=current_user.id).count()
+        print(number_of_posts)
+
+        if number_of_posts >= 10:
+            flash("You cannot have more than 10 posts due to spam policies", "danger")
+            return redirect(url_for('dashboard'))
+
         post = Posts(title=form.title.data.strip(),
                      content=form.content.data.strip(),
                      author=current_user.name,
@@ -238,8 +246,6 @@ def lesson_six():
 @login_required
 def project_one():
     return render_template("/lessons/project_one.html")
-
-from flask import render_template
 
 # 400 – Bad Request
 @app.errorhandler(400)

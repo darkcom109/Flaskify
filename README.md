@@ -35,7 +35,8 @@ Flaskify enables users to be able to learn Flask, through Flask and built with F
 ## Getting Started  
 
 ### Prerequisites  
-Make sure you have **Python 3.9+** installed.  
+Make sure you have **Python 3.9+** installed.
+You will need to create a FORM_SECRET_KEY in your .env file
 
 ### Installation  
 

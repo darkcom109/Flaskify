@@ -1,32 +1,31 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired
-from wtforms.widgets import TextArea
+from wtforms.validators import DataRequired, Length
 from flask_ckeditor import CKEditorField
 
 # Create a sign-up form class
 class SignUpForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired(), Length(min=1, max=100)])
+    email = StringField("Email", validators=[DataRequired(), Length(min=1, max=100)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=1, max=999)])
     submit = SubmitField("Submit")
 
 # Create a login form class
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Length(min=1, max=100)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=1, max=999)])
     submit = SubmitField("Submit")
 
 class UpdateForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired()])
-    bio = StringField("Profile Description", validators=[DataRequired()])
-    aspiring_job = StringField("Aspiring Position", default="Flaskify Enthusiast", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired(), Length(min=1, max=100)])
+    email = StringField("Email", validators=[DataRequired(), Length(min=1, max=100)])
+    bio = StringField("Profile Description", validators=[DataRequired(), Length(min=1, max=200)])
+    aspiring_job = StringField("Aspiring Position", default="Flaskify Enthusiast", validators=[DataRequired(), Length(min=1, max=100)])
     submit = SubmitField("Submit")
 
 class PostForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired()])
-    content = CKEditorField("Content", validators=[DataRequired()])
+    title = StringField("Title", validators=[DataRequired(), Length(min=1, max=30)])
+    content = CKEditorField("Content", validators=[DataRequired(), Length(min=1, max=200)])
     submit = SubmitField("Submit")
 
 class SearchForm(FlaskForm):

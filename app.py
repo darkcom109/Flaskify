@@ -3,7 +3,7 @@ import os
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm, SearchForm
-from models import Posts, Users, db, app, ckeditor
+from models import Posts, Users, db, app
 
 # Secret key
 app.config['SECRET_KEY'] = os.getenv("FORM_SECRET_KEY", "dev-secret")

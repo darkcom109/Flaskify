@@ -3,6 +3,10 @@
 A Flask-based web application that provides user authentication, profile management, and a learning dashboard with lessons and progress tracking.
 Flaskify enables users to be able to learn Flask, through Flask and built with Flask.
 
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/78387b00-0aa6-4a74-aabd-afa3498e6c84" />
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/48091c89-92a0-4387-8b7c-fb88c3826302" />
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/4af4525f-f8cf-434b-a252-33253545d099" />
+
 ## Features  
 
 - 🔑 **User Authentication**  

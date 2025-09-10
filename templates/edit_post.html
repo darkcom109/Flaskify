@@ -11,6 +11,9 @@
         <form method="POST" class="d-flex flex-column gap-2">
             {{ form.hidden_tag() }}
 
+            {% for error in form.content.errors %}
+                <div class="text-danger text-md small text-center">{{ error }}</div>
+            {% endfor %}
             {{ form.title.label(class="") }}
             {{ form.title(class="form-control") }}
             {{ form.content.label(rows="10")}}

@@ -47,11 +47,14 @@ You will need to create a FORM_SECRET_KEY in your .env file
 ```bash
 # Clone the repository
 git clone https://github.com/darkcom109/Flaskify.git
-cd flaskify
+cd Flaskify
 
 # Create a virtual environment
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
+
+# Install requirements.txt
+pip install -r requirements.txt
 
 # Run the app
 flask run

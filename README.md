@@ -46,7 +46,7 @@ You will need to create a FORM_SECRET_KEY in your .env file
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/flaskify.git
+git clone https://github.com/darkcom109/Flaskify.git
 cd flaskify
 
 # Create a virtual environment

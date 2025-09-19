@@ -25,16 +25,16 @@
         Gunicorn is a production-grade WSGI server for running Python web apps.
     </p>
     <pre><code>
-{% raw %}
-pip install gunicorn
-{% endraw %}
-    </code></pre>
+    {% raw %}
+    pip install gunicorn
+    {% endraw %}
+        </code></pre>
 
-    <h3>Step 3: Running with Gunicorn</h3>
-    <pre><code>
-{% raw %}
-gunicorn -w 4 app:app
-{% endraw %}
+        <h3>Step 3: Running with Gunicorn</h3>
+        <pre><code>
+    {% raw %}
+    gunicorn -w 4 app:app
+    {% endraw %}
     </code></pre>
     <p>
         - <code>-w 4</code> = number of worker processes.  
@@ -46,10 +46,10 @@ gunicorn -w 4 app:app
         Store secrets like your <code>SECRET_KEY</code> in environment variables, not hard-coded in <code>app.py</code>.
     </p>
     <pre><code>
-{% raw %}
-export SECRET_KEY="supersecret"
-flask run
-{% endraw %}
+    {% raw %}
+    export SECRET_KEY="supersecret"
+    flask run
+    {% endraw %}
     </code></pre>
 
     <h3>Step 5: Hosting Options</h3>
@@ -65,16 +65,16 @@ flask run
         Most platforms expect a <code>requirements.txt</code> listing dependencies:
     </p>
     <pre><code>
-{% raw %}
-pip freeze > requirements.txt
-{% endraw %}
+    {% raw %}
+    pip freeze > requirements.txt
+    {% endraw %}
     </code></pre>
 
     <h3>Step 7: Procfile (for some hosts)</h3>
     <pre><code>
-{% raw %}
-web: gunicorn app:app
-{% endraw %}
+    {% raw %}
+    web: gunicorn app:app
+    {% endraw %}
     </code></pre>
     <p>
         This tells the platform how to run your app.

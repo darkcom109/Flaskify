@@ -21,28 +21,28 @@
 
     <h3>Step 2: Create a Blueprint</h3>
     <pre><code>
-{% raw %}
-# blog/routes.py
-from flask import Blueprint
+    {% raw %}
+    # blog/routes.py
+    from flask import Blueprint
 
-blog = Blueprint("blog", __name__)
+    blog = Blueprint("blog", __name__)
 
-@blog.route("/blog")
-def blog_home():
-    return "Welcome to the blog!"
-{% endraw %}
+    @blog.route("/blog")
+    def blog_home():
+        return "Welcome to the blog!"
+    {% endraw %}
     </code></pre>
 
     <h3>Step 3: Register the Blueprint</h3>
     <pre><code>
-{% raw %}
-# app.py
-from flask import Flask
-from blog.routes import blog
+    {% raw %}
+    # app.py
+    from flask import Flask
+    from blog.routes import blog
 
-app = Flask(__name__)
-app.register_blueprint(blog)
-{% endraw %}
+    app = Flask(__name__)
+    app.register_blueprint(blog)
+    {% endraw %}
     </code></pre>
     <p>
         Now visiting <code>/blog</code> will hit the blueprint route.
@@ -50,10 +50,10 @@ app.register_blueprint(blog)
 
     <h3>Step 4: Using URL Prefixes</h3>
     <pre><code>
-{% raw %}
-# app.py
-app.register_blueprint(blog, url_prefix="/posts")
-{% endraw %}
+    {% raw %}
+    # app.py
+    app.register_blueprint(blog, url_prefix="/posts")
+    {% endraw %}
     </code></pre>
     <p>
         Now your routes are available under <code>/posts/...</code>.
@@ -61,20 +61,20 @@ app.register_blueprint(blog, url_prefix="/posts")
 
     <h3>Step 5: Multiple Blueprints</h3>
     <pre><code>
-{% raw %}
-# auth/routes.py
-from flask import Blueprint
+    {% raw %}
+    # auth/routes.py
+    from flask import Blueprint
 
-auth = Blueprint("auth", __name__)
+    auth = Blueprint("auth", __name__)
 
-@auth.route("/login")
-def login():
-    return "Login Page"
+    @auth.route("/login")
+    def login():
+        return "Login Page"
 
-# app.py
-from auth.routes import auth
-app.register_blueprint(auth, url_prefix="/auth")
-{% endraw %}
+    # app.py
+    from auth.routes import auth
+    app.register_blueprint(auth, url_prefix="/auth")
+    {% endraw %}
     </code></pre>
     <p>
         You can now visit <code>/auth/login</code> for the auth blueprint.

@@ -21,15 +21,15 @@
 
     <h3>Step 2: A Simple JSON Response</h3>
     <pre><code>
-{% raw %}
-from flask import Flask, jsonify
+    {% raw %}
+    from flask import Flask, jsonify
 
-app = Flask(__name__)
+    app = Flask(__name__)
 
-@app.route("/api/hello")
-def api_hello():
-    return jsonify(message="Hello, API World!")
-{% endraw %}
+    @app.route("/api/hello")
+    def api_hello():
+        return jsonify(message="Hello, API World!")
+    {% endraw %}
     </code></pre>
     <p>
         Visit <code>/api/hello</code> in your browser and you’ll see a JSON object instead of a web page.
@@ -37,15 +37,15 @@ def api_hello():
 
     <h3>Step 3: Returning Data</h3>
     <pre><code>
-{% raw %}
-@app.route("/api/users")
-def get_users():
-    users = [
-        {"id": 1, "username": "alice"},
-        {"id": 2, "username": "bob"}
-    ]
-    return jsonify(users)
-{% endraw %}
+    {% raw %}
+    @app.route("/api/users")
+    def get_users():
+        users = [
+            {"id": 1, "username": "alice"},
+            {"id": 2, "username": "bob"}
+        ]
+        return jsonify(users)
+    {% endraw %}
     </code></pre>
     <p>
         Flask automatically converts Python dictionaries and lists into JSON.
@@ -53,14 +53,14 @@ def get_users():
 
     <h3>Step 4: Accepting Query Parameters</h3>
     <pre><code>
-{% raw %}
-from flask import request
+    {% raw %}
+    from flask import request
 
-@app.route("/api/search")
-def search():
-    q = request.args.get("q", "")
-    return jsonify(result=f"You searched for: {q}")
-{% endraw %}
+    @app.route("/api/search")
+    def search():
+        q = request.args.get("q", "")
+        return jsonify(result=f"You searched for: {q}")
+    {% endraw %}
     </code></pre>
     <p>
         Example: <code>/api/search?q=flask</code> → <code>{"result": "You searched for: flask"}</code>
@@ -68,11 +68,11 @@ def search():
 
     <h3>Step 5: Returning Status Codes</h3>
     <pre><code>
-{% raw %}
-@app.route("/api/error")
-def error_example():
-    return jsonify(error="Something went wrong"), 400
-{% endraw %}
+    {% raw %}
+    @app.route("/api/error")
+    def error_example():
+        return jsonify(error="Something went wrong"), 400
+    {% endraw %}
     </code></pre>
     <p>
         You can return a tuple: (JSON, status code).

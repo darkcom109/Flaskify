@@ -15,19 +15,19 @@
 
     <h3>Step 1: A Simple Model</h3>
     <pre><code>
-{% raw %}
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    {% raw %}
+    class Post(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        title = db.Column(db.String(100), nullable=False)
+        content = db.Column(db.Text, nullable=False)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content
-        }
-{% endraw %}
+        def to_dict(self):
+            return {
+                "id": self.id,
+                "title": self.title,
+                "content": self.content
+            }
+    {% endraw %}
     </code></pre>
     <p>
         The <code>to_dict()</code> method turns a SQLAlchemy object into a dictionary, which Flask can easily convert to JSON.
@@ -35,14 +35,14 @@ class Post(db.Model):
 
     <h3>Step 2: Returning All Posts as JSON</h3>
     <pre><code>
-{% raw %}
-from flask import jsonify
+    {% raw %}
+    from flask import jsonify
 
-@app.route("/api/posts")
-def api_posts():
-    posts = Post.query.all()
-    return jsonify([p.to_dict() for p in posts])
-{% endraw %}
+    @app.route("/api/posts")
+    def api_posts():
+        posts = Post.query.all()
+        return jsonify([p.to_dict() for p in posts])
+    {% endraw %}
     </code></pre>
     <p>
         Visit <code>/api/posts</code> in your browser and you’ll see JSON data instead of HTML.
@@ -50,12 +50,12 @@ def api_posts():
 
     <h3>Step 3: Returning a Single Post</h3>
     <pre><code>
-{% raw %}
-@app.route("/api/posts/&lt;int:post_id&gt;")
-def api_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    return jsonify(post.to_dict())
-{% endraw %}
+    {% raw %}
+    @app.route("/api/posts/&lt;int:post_id&gt;")
+    def api_post(post_id):
+        post = Post.query.get_or_404(post_id)
+        return jsonify(post.to_dict())
+    {% endraw %}
     </code></pre>
     <p>
         Example: <code>/api/posts/1</code> → returns the first post as JSON.
@@ -63,15 +63,15 @@ def api_post(post_id):
 
     <h3>Step 4: Sending JSON Data into the Database</h3>
     <pre><code>
-{% raw %}
-@app.route("/api/posts", methods=["POST"])
-def create_post():
-    data = request.get_json()
-    new_post = Post(title=data["title"], content=data["content"])
-    db.session.add(new_post)
-    db.session.commit()
-    return jsonify(new_post.to_dict()), 201
-{% endraw %}
+    {% raw %}
+    @app.route("/api/posts", methods=["POST"])
+    def create_post():
+        data = request.get_json()
+        new_post = Post(title=data["title"], content=data["content"])
+        db.session.add(new_post)
+        db.session.commit()
+        return jsonify(new_post.to_dict()), 201
+    {% endraw %}
     </code></pre>
     <p>
         Now your app can <strong>create</strong> posts directly from JSON input.

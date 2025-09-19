@@ -19,35 +19,35 @@
         you create a <code>base.html</code> template and let other templates extend it.
     </p>
     <pre><code>
-{% raw %}
-<!-- templates/base.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Flaskify</title>
-</head>
-<body>
-    <header>Navbar here</header>
+    {% raw %}
+    &lt;!-- templates/base.html --&gt;
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Flaskify&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;header&gt;Navbar here&lt;/header&gt;
 
-    {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
 
-    <footer>Footer here</footer>
-</body>
-</html>
-{% endraw %}
+        &lt;footer&gt;Footer here&lt;/footer&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    {% endraw %}
     </code></pre>
 
-    <h3>Step 2: Extending a Template</h3>
+        <h3>Step 2: Extending a Template</h3>
     <pre><code>
-{% raw %}
-<!-- templates/home.html -->
-{% extends "base.html" %}
+    {% raw %}
+    &lt;!-- templates/home.html --&gt;
+    {% extends "base.html" %}
 
-{% block content %}
-    <h1>Welcome to Flaskify!</h1>
-    <p>Learning Flask through Flask.</p>
-{% endblock %}
-{% endraw %}
+    {% block content %}
+        &lt;h1&gt;Welcome to Flaskify!&lt;/h1&gt;
+        &lt;p&gt;Learning Flask through Flask.&lt;/p&gt;
+    {% endblock %}
+    {% endraw %}
     </code></pre>
     <p>
         This keeps your HTML consistent and much easier to maintain.
@@ -58,27 +58,27 @@
         A macro is like a function inside your template. It lets you reuse small chunks of code.
     </p>
     <pre><code>
-{% raw %}
-<!-- templates/macros.html -->
-{% macro render_input(name, type="text") %}
-    <label for="{{ name }}">{{ name.capitalize() }}:</label>
-    <input type="{{ type }}" name="{{ name }}" id="{{ name }}">
-{% endmacro %}
-{% endraw %}
+    {% raw %}
+    &lt;!-- templates/macros.html --&gt;
+    {% macro render_input(name, type="text") %}
+        &lt;label for="{{ name }}"&gt;{{ name.capitalize() }}:&lt;/label&gt;
+        &lt;input type="{{ type }}" name="{{ name }}" id="{{ name }}"&gt;
+    {% endmacro %}
+    {% endraw %}
     </code></pre>
 
     <h3>Step 4: Importing and Using a Macro</h3>
     <pre><code>
-{% raw %}
-<!-- templates/register.html -->
-{% from "macros.html" import render_input %}
+    {% raw %}
+    &lt;!-- templates/register.html --&gt;
+    {% from "macros.html" import render_input %}
 
-<form method="POST">
-    {{ render_input("username") }}
-    {{ render_input("password", type="password") }}
-    <button type="submit">Register</button>
-</form>
-{% endraw %}
+    &lt;form method="POST"&gt;
+        {{ render_input("username") }}
+        {{ render_input("password", type="password") }}
+        &lt;button type="submit"&gt;Register&lt;/button&gt;
+    &lt;/form&gt;
+    {% endraw %}
     </code></pre>
     <p>
         Now you don’t have to copy-paste form fields everywhere — just call the macro.

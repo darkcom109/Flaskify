@@ -24,17 +24,25 @@ def search():
     form = SearchForm()
     posts = Posts.query
     if form.validate_on_submit():
-        post.searched = form.searched.data
-        posts = posts.filter(Posts.content.like('%' + post.searched + '%'))
+        search_term = f"%{form.searched.data.strip()}%"   # build the pattern safely
+        posts = posts.filter(Posts.content.like(search_term))
         posts = posts.order_by(Posts.title).all()
-        return render_template("search.html", form=form, searched=post.searched, posts=posts)
-    
+        return render_template(
+            "search.html", 
+            form=form, 
+            searched=form.searched.data, 
+            posts=posts
+        )
+
     return redirect(url_for("posts"))
 
 @app.route('/posts/delete/<int:id>')
 @login_required
 def delete_post(id):
     post = Posts.query.get_or_404(id)
+    if current_user.id != post.user_id:
+        flash("You cannot access this page", "danger")
+        return redirect(url_for('dashboard'))
     try:
         db.session.delete(post)
         db.session.commit()

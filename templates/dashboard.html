@@ -28,11 +28,17 @@
       <div class="accordion-body">
         <ul class="list-group">
             <li class="list-group-item">
-                <input type="checkbox" class="lesson-check item-styling"> 
+                <input type="checkbox" 
+                       class="lesson-check item-styling"
+                       data-lesson-id="lesson_zero"
+                       {% if "lesson_zero" in user_progress%}checked{% endif %}> 
                 <a href="{{url_for('lesson_zero')}}" class="margin-left-styling">Welcome to Flaskify!</a>
             </li>
             <li class="list-group-item">
-                <input type="checkbox" class="lesson-check item-styling">
+                <input type="checkbox" 
+                       class="lesson-check item-styling"
+                       data-lesson-id="lesson_one"
+                       {% if "lesson_one" in user_progress%}checked{% endif %}>
                 <a href="{{url_for('lesson_one')}}" class="margin-left-styling">Setup & Hello World</a>
             </li>
         </ul>
@@ -51,15 +57,24 @@
       <div class="accordion-body">
         <ul class="list-group">
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_two"
+                   {% if "lesson_two" in user_progress%}checked{% endif %}>
             <a href="{{url_for('lesson_two')}}" class="margin-left-styling">Routes & Views</a>
           </li>
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_three"
+                   {% if "lesson_three" in user_progress%}checked{% endif %}>
             <a href="{{url_for('lesson_three')}}" class="margin-left-styling">Templates & Jinja Basics</a>
           </li>
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_four"
+                   {% if "lesson_four" in user_progress%}checked{% endif %}>
             <a href="{{url_for('lesson_four')}}" class="margin-left-styling">Static Files</a>
           </li>
         </ul>
@@ -78,11 +93,17 @@
       <div class="accordion-body">
         <ul class="list-group">
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_five"
+                   {% if "lesson_five" in user_progress%}checked{% endif %}>
             <a href="{{url_for('lesson_five')}}" class="margin-left-styling">Forms & User Input</a>
           </li>
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_six"
+                   {% if "lesson_six" in user_progress%}checked{% endif %}>
             <a href="{{url_for('lesson_six')}}" class="margin-left-styling">Flash Messages & Feedback</a>
           </li>
         </ul>
@@ -101,7 +122,10 @@
       <div class="accordion-body">
         <ul class="list-group">
           <li class="list-group-item">
-            <input type="checkbox" class="lesson-check item-styling">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="project_one"
+                   {% if "project_one" in user_progress %}checked{% endif %}>
             <a href="{{url_for('project_one')}}" class="margin-left-styling">Complete your First Project</a>
           </li>
         </ul>
@@ -111,18 +135,28 @@
 </div>
 
     <script>
-        const checkboxes = document.querySelectorAll(".lesson-check");
-        const progress = document.getElementById("progress-bar")
+      const checkboxes = document.querySelectorAll(".lesson-check");
+      const progress = document.getElementById("progress-bar");
 
-        function updateProgress() {
-            const total = checkboxes.length;
-            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-            const percent = Math.round((checked / total) * 100)
-            progress.style.width = percent + "%"
-            progress.textContent = percent + "%"
-        }
+      function updateProgress() {
+          const completed = Array.from(checkboxes)
+              .filter(cb => cb.checked)
+              .map(cb => cb.dataset.lessonId);
 
-        checkboxes.forEach(cb => cb.addEventListener("change", updateProgress))
+          const percent = Math.round((completed.length / checkboxes.length) * 100);
+          progress.style.width = percent + "%";
+          progress.textContent = percent + "%";
+
+          fetch("/save_progress", {
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({ completed_lessons: completed })
+          });
+      }
+
+      checkboxes.forEach(cb => cb.addEventListener("change", updateProgress));
+      updateProgress(); // call once on load so bar is correct
     </script>
+
 </div>
 {% endblock %}

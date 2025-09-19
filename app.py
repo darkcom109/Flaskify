@@ -126,7 +126,8 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template("dashboard.html", current_user=current_user)
+    progress = current_user.progress or []
+    return render_template("dashboard.html", current_user=current_user, user_progress=set(progress))
 
 @app.route('/')
 def index():
@@ -281,6 +282,14 @@ def too_many_requests(e):
 @app.errorhandler(500)
 def internal_error(e):
     return render_template("errors/500.html"), 500
+
+@app.route("/save_progress", methods=['POST'])
+@login_required
+def save_progress():
+    data = request.json
+    current_user.progress = data.get("completed_lessons", [])
+    db.session.commit()
+    return {"success": True}
 
 if __name__ == "__main__":
     app.run(debug=True)

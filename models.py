@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import Flask
 from flask_ckeditor import CKEditor
+from sqlalchemy.dialects.sqlite import JSON
 import os, random
 
 AVATAR_FOLDER = "static/avatars"
@@ -38,3 +39,4 @@ class Users(db.Model, UserMixin):
     bio = db.Column(db.String(9999))
     profile_picture = db.Column(db.String(), default=get_random_avatar())
     aspiring_job = db.Column(db.String(9999))
+    progress = db.Column(JSON, default=list)

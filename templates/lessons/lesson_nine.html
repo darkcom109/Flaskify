@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 10: Database Migrations with Flask-Migrate</h1>
+        <p class="lead">In this lesson, you’ll learn how to use <code>Flask-Migrate</code> to manage changes to your database without deleting everything each time.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Are Migrations?</h3>
+    <p>
+        A migration is like version control for your database. Instead of recreating the entire database whenever 
+        you change a model, migrations safely update the schema.
+    </p>
+
+    <h3>Step 2: Install Flask-Migrate</h3>
+    <pre><code>
+        pip install flask-migrate
+    </code></pre>
+
+    <h3>Step 3: Set Up Flask-Migrate</h3>
+    <pre><code>
+        from flask import Flask
+        from flask_sqlalchemy import SQLAlchemy
+        from flask_migrate import Migrate
+
+        app = Flask(__name__)
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+        db = SQLAlchemy(app)
+        migrate = Migrate(app, db)
+    </code></pre>
+
+    <h3>Step 4: Initialize Migrations</h3>
+    <p>
+        Run these commands in your terminal:
+    </p>
+    <pre><code>
+        flask db init      # sets up a migrations folder
+        flask db migrate   # creates a new migration based on model changes
+        flask db upgrade   # applies the migration to the database
+    </code></pre>
+
+    <h3>Step 5: Making Changes</h3>
+    <p>
+        Add a new field to your <code>User</code> model:
+    </p>
+    <pre><code>
+        class User(db.Model):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(20), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+            bio = db.Column(db.Text)  # NEW FIELD
+    </code></pre>
+
+    <p>
+        Now generate and apply a new migration:
+    </p>
+    <pre><code>
+        flask db migrate -m "Add bio field to User"
+        flask db upgrade
+    </code></pre>
+
+    <h3>Step 6: Checking the Database</h3>
+    <p>
+        Your database now includes the new <code>bio</code> column — without destroying existing data.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

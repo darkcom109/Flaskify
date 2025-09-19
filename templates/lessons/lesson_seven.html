@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 7: Databases with SQLite</h1>
+        <p class="lead">In this lesson, you’ll learn how to connect your Flask app to a database using <code>SQLite</code> and the <code>Flask-SQLAlchemy</code> extension.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Why a Database?</h3>
+    <p>
+        Right now, your blog posts vanish whenever you restart the app. A database stores data permanently — 
+        making it possible to keep track of users, posts, comments, or anything else worth saving.
+    </p>
+
+    <h3>Step 2: Install Flask-SQLAlchemy</h3>
+    <pre><code>
+        pip install flask_sqlalchemy
+    </code></pre>
+
+    <h3>Step 3: Configure the Database</h3>
+    <p>
+        Add the following to your <code>app.py</code>:
+    </p>
+    <pre><code>
+        from flask import Flask
+        from flask_sqlalchemy import SQLAlchemy
+
+        app = Flask(__name__)
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+        db = SQLAlchemy(app)
+    </code></pre>
+
+    <h3>Step 4: Define a Model</h3>
+    <p>
+        A model is a Python class that represents a table in the database.
+    </p>
+    <pre><code>
+        class User(db.Model):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(20), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+
+            def __repr__(self):
+                return f"User('{self.username}', '{self.email}')"
+    </code></pre>
+
+    <h3>Step 5: Create the Database</h3>
+    <p>
+        Open a Python shell and run:
+    </p>
+    <pre><code>
+        from app import db
+        db.create_all()
+    </code></pre>
+    <p>
+        This will generate a <code>site.db</code> file in your project folder.
+    </p>
+
+    <h3>Step 6: Add and Query Data</h3>
+    <pre><code>
+        # Add a new user
+        user = User(username="alice", email="alice@example.com")
+        db.session.add(user)
+        db.session.commit()
+
+        # Query all users
+        users = User.query.all()
+        print(users)
+    </code></pre>
+
+    <p>
+        Congrats — you’ve got a database running inside your Flask app!
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

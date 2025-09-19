@@ -208,45 +208,9 @@ def update(id):
     else:
         return render_template("update.html", form=form, name_to_update=name_to_update)
 
-@app.route('/dashboard/lesson_zero')
-@login_required
-def lesson_zero():
-    return render_template("/lessons/lesson_zero.html")
-
-@app.route('/dashboard/lesson_one')
-@login_required
-def lesson_one():
-    return render_template("/lessons/lesson_one.html")
-
-@app.route('/dashboard/lesson_two')
-@login_required
-def lesson_two():
-    return render_template("/lessons/lesson_two.html")
-
-@app.route('/dashboard/lesson_three')
-@login_required
-def lesson_three():
-    return render_template("/lessons/lesson_three.html")
-
-@app.route('/dashboard/lesson_four')
-@login_required
-def lesson_four():
-    return render_template("/lessons/lesson_four.html")
-
-@app.route('/dashboard/lesson_five')
-@login_required
-def lesson_five():
-    return render_template("/lessons/lesson_five.html")
-
-@app.route('/dashboard/lesson_six')
-@login_required
-def lesson_six():
-    return render_template("/lessons/lesson_six.html")
-
-@app.route('/dashboard/project_one')
-@login_required
-def project_one():
-    return render_template("/lessons/project_one.html")
+@app.route('/dashboard/<string:lesson>')
+def lesson(lesson):
+    return render_template(f"/lessons/{lesson}.html")
 
 # 400 – Bad Request
 @app.errorhandler(400)

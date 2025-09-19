@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 12: Flask-Login Basics</h1>
+        <p class="lead">In this lesson, you’ll learn how to use the <code>Flask-Login</code> extension to manage user authentication in your app.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Install Flask-Login</h3>
+    <pre><code>
+        pip install flask-login
+    </code></pre>
+
+    <h3>Step 2: Set Up Flask-Login</h3>
+    <pre><code>
+        from flask import Flask
+        from flask_sqlalchemy import SQLAlchemy
+        from flask_login import LoginManager, UserMixin
+
+        app = Flask(__name__)
+        app.config['SECRET_KEY'] = 'supersecretkey'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+        db = SQLAlchemy(app)
+        login_manager = LoginManager(app)
+        login_manager.login_view = "login"   # redirect here if not logged in
+    </code></pre>
+
+    <h3>Step 3: Update the User Model</h3>
+    <p>
+        Add <code>UserMixin</code> to your <code>User</code> model to give it authentication methods automatically.
+    </p>
+    <pre><code>
+        class User(db.Model, UserMixin):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(20), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+            password = db.Column(db.String(60), nullable=False)
+    </code></pre>
+
+    <h3>Step 4: User Loader</h3>
+    <p>
+        Flask-Login needs a way to load users by ID:
+    </p>
+    <pre><code>
+        @login_manager.user_loader
+        def load_user(user_id):
+            return User.query.get(int(user_id))
+    </code></pre>
+
+    <h3>Step 5: Logging Users In</h3>
+    <pre><code>
+        from flask import request, redirect, url_for
+        from flask_login import login_user
+
+        @app.route("/login", methods=["POST"])
+        def login():
+            username = request.form.get("username")
+            user = User.query.filter_by(username=username).first()
+            if user:
+                login_user(user)
+                return redirect(url_for("dashboard"))
+            return "Invalid credentials"
+    </code></pre>
+
+    <h3>Step 6: Protecting Routes</h3>
+    <p>
+        Use <code>@login_required</code> to lock down views:
+    </p>
+    <pre><code>
+        from flask_login import login_required, current_user
+
+        @app.route("/dashboard")
+        @login_required
+        def dashboard():
+            return f"Hello, {current_user.username}!"
+    </code></pre>
+
+    <h3>Step 7: Logging Out</h3>
+    <pre><code>
+        from flask_login import logout_user
+
+        @app.route("/logout")
+        def logout():
+            logout_user()
+            return "You’ve been logged out."
+    </code></pre>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

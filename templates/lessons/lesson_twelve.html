@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 13: Protecting Routes & User Roles</h1>
+        <p class="lead">In this lesson, you’ll learn how to restrict access to certain pages and add <strong>user roles</strong> like admin or regular user.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Add a Role to the User Model</h3>
+    <p>
+        Extend your <code>User</code> model to include a role field:
+    </p>
+    <pre><code>
+        class User(db.Model, UserMixin):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(20), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+            password = db.Column(db.String(60), nullable=False)
+            role = db.Column(db.String(20), nullable=False, default="user")
+    </code></pre>
+    <p>
+        Example roles: <code>user</code>, <code>admin</code>, <code>moderator</code>.
+    </p>
+
+    <h3>Step 2: Protect a Route with Login</h3>
+    <pre><code>
+        from flask_login import login_required
+
+        @app.route("/profile")
+        @login_required
+        def profile():
+            return "This is your profile page."
+    </code></pre>
+
+    <h3>Step 3: Restrict Routes by Role</h3>
+    <pre><code>
+        from flask import abort
+        from flask_login import current_user
+
+        @app.route("/admin")
+        @login_required
+        def admin_dashboard():
+            if current_user.role != "admin":
+                abort(403)  # Forbidden
+            return "Welcome to the admin dashboard!"
+    </code></pre>
+
+    <h3>Step 4: Custom Error Page</h3>
+    <p>
+        Instead of a boring error, add a custom template for 403 errors:
+    </p>
+    <pre><code>
+        @app.errorhandler(403)
+        def forbidden(e):
+            return "You do not have permission to access this page.", 403
+    </code></pre>
+
+    <h3>Step 5: Putting It All Together</h3>
+    <p>
+        Now you can log in with different users and test:  
+        - <code>user</code> role → can’t access <code>/admin</code>  
+        - <code>admin</code> role → full access
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

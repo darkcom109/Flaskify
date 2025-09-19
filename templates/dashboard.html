@@ -32,14 +32,14 @@
                        class="lesson-check item-styling"
                        data-lesson-id="lesson_zero"
                        {% if "lesson_zero" in user_progress%}checked{% endif %}> 
-                <a href="{{url_for('lesson_zero')}}" class="margin-left-styling">Welcome to Flaskify!</a>
+                <a href="{{url_for('lesson', lesson='lesson_zero')}}" class="margin-left-styling">Welcome to Flaskify!</a>
             </li>
             <li class="list-group-item">
                 <input type="checkbox" 
                        class="lesson-check item-styling"
                        data-lesson-id="lesson_one"
                        {% if "lesson_one" in user_progress%}checked{% endif %}>
-                <a href="{{url_for('lesson_one')}}" class="margin-left-styling">Setup & Hello World</a>
+                <a href="{{url_for('lesson', lesson='lesson_one')}}" class="margin-left-styling">Setup & Hello World</a>
             </li>
         </ul>
       </div>
@@ -61,21 +61,21 @@
                    class="lesson-check item-styling"
                    data-lesson-id="lesson_two"
                    {% if "lesson_two" in user_progress%}checked{% endif %}>
-            <a href="{{url_for('lesson_two')}}" class="margin-left-styling">Routes & Views</a>
+            <a href="{{url_for('lesson', lesson='lesson_two')}}" class="margin-left-styling">Routes & Views</a>
           </li>
           <li class="list-group-item">
             <input type="checkbox" 
                    class="lesson-check item-styling"
                    data-lesson-id="lesson_three"
                    {% if "lesson_three" in user_progress%}checked{% endif %}>
-            <a href="{{url_for('lesson_three')}}" class="margin-left-styling">Templates & Jinja Basics</a>
+            <a href="{{url_for('lesson', lesson='lesson_three')}}" class="margin-left-styling">Templates & Jinja Basics</a>
           </li>
           <li class="list-group-item">
             <input type="checkbox" 
                    class="lesson-check item-styling"
                    data-lesson-id="lesson_four"
                    {% if "lesson_four" in user_progress%}checked{% endif %}>
-            <a href="{{url_for('lesson_four')}}" class="margin-left-styling">Static Files</a>
+            <a href="{{url_for('lesson', lesson='lesson_four')}}" class="margin-left-styling">Static Files</a>
           </li>
         </ul>
       </div>
@@ -97,14 +97,14 @@
                    class="lesson-check item-styling"
                    data-lesson-id="lesson_five"
                    {% if "lesson_five" in user_progress%}checked{% endif %}>
-            <a href="{{url_for('lesson_five')}}" class="margin-left-styling">Forms & User Input</a>
+            <a href="{{url_for('lesson', lesson='lesson_five')}}" class="margin-left-styling">Forms & User Input</a>
           </li>
           <li class="list-group-item">
             <input type="checkbox" 
                    class="lesson-check item-styling"
                    data-lesson-id="lesson_six"
                    {% if "lesson_six" in user_progress%}checked{% endif %}>
-            <a href="{{url_for('lesson_six')}}" class="margin-left-styling">Flash Messages & Feedback</a>
+            <a href="{{url_for('lesson', lesson='lesson_six')}}" class="margin-left-styling">Flash Messages & Feedback</a>
           </li>
         </ul>
       </div>
@@ -126,7 +126,79 @@
                    class="lesson-check item-styling"
                    data-lesson-id="project_one"
                    {% if "project_one" in user_progress %}checked{% endif %}>
-            <a href="{{url_for('project_one')}}" class="margin-left-styling">Complete your First Project</a>
+            <a href="{{url_for('lesson', lesson='project_one')}}" class="margin-left-styling">Complete your First Project</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingFive">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+        Databases
+      </button>
+    </h2>
+    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_seven"
+                   {% if "lesson_seven" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_seven')}}" class="margin-left-styling">Databases with SQLite</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_eight"
+                   {% if "lesson_eight" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_eight')}}" class="margin-left-styling">SQLAlchemy Models & Queries</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_nine"
+                   {% if "lesson_nine" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_nine')}}" class="margin-left-styling">Database Migrations with Flask-Migrate</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSix">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+        Authentication
+      </button>
+    </h2>
+    <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_ten"
+                   {% if "lesson_ten" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_ten')}}" class="margin-left-styling">Sessions & Cookies</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_eleven"
+                   {% if "lesson_eleven" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_eleven')}}" class="margin-left-styling">Flask-Login Basics</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_twelve"
+                   {% if "lesson_twelve" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_twelve')}}" class="margin-left-styling">Protecting Routes & User Roles</a>
           </li>
         </ul>
       </div>

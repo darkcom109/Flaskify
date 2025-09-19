@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 11: Sessions & Cookies</h1>
+        <p class="lead">In this lesson, you’ll learn how Flask uses <code>sessions</code> and <code>cookies</code> to remember information about users across requests.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Are Cookies?</h3>
+    <p>
+        A cookie is a tiny piece of data stored in the user’s browser. 
+        Flask can use cookies to keep track of things like login status or preferences.
+    </p>
+
+    <h3>Step 2: Flask Sessions</h3>
+    <p>
+        Flask provides a <code>session</code> object (like a dictionary) to store information across requests.  
+        This data is signed with a secret key so it can’t be tampered with.
+    </p>
+    <pre><code>
+        from flask import Flask, session
+
+        app = Flask(__name__)
+        app.secret_key = "supersecretkey"  # change this in production!
+    </code></pre>
+
+    <h3>Step 3: Setting Session Data</h3>
+    <pre><code>
+        from flask import request, redirect, url_for
+
+        @app.route("/login", methods=["POST"])
+        def login():
+            username = request.form.get("username")
+            session["user"] = username
+            return redirect(url_for("dashboard"))
+    </code></pre>
+    <p>
+        Here, we store the username in the session after a login form submission.
+    </p>
+
+    <h3>Step 4: Accessing Session Data</h3>
+    <pre><code>
+        @app.route("/dashboard")
+        def dashboard():
+            user = session.get("user")
+            if user:
+                return f"Welcome back, {user}!"
+            return "You are not logged in."
+    </code></pre>
+
+    <h3>Step 5: Clearing Session Data</h3>
+    <pre><code>
+        @app.route("/logout")
+        def logout():
+            session.pop("user", None)
+            return "You’ve been logged out."
+    </code></pre>
+
+    <p>
+        Removing data from the session will effectively log the user out.
+    </p>
+
+    <h3>Step 6: Cookies in Action</h3>
+    <p>
+        If you open your browser’s dev tools (Application → Storage → Cookies), 
+        you’ll see Flask’s session cookie being stored and updated.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

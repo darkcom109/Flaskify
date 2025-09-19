@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 9: SQLAlchemy Models & Queries</h1>
+        <p class="lead">In this lesson, you’ll go deeper into <code>SQLAlchemy</code> models and learn how to query your database effectively.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Expanding Your Models</h3>
+    <p>
+        A model is just a Python class that maps to a database table. You can add multiple fields and even create relationships between tables.
+    </p>
+    <pre><code>
+        class Post(db.Model):
+            id = db.Column(db.Integer, primary_key=True)
+            title = db.Column(db.String(100), nullable=False)
+            content = db.Column(db.Text, nullable=False)
+            user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+            def __repr__(self):
+                return f"Post('{self.title}')"
+
+        class User(db.Model):
+            id = db.Column(db.Integer, primary_key=True)
+            username = db.Column(db.String(20), unique=True, nullable=False)
+            email = db.Column(db.String(120), unique=True, nullable=False)
+            posts = db.relationship('Post', backref='author', lazy=True)
+    </code></pre>
+
+    <p>
+        Here, each <code>Post</code> belongs to a <code>User</code>, and each <code>User</code> can have multiple posts.
+    </p>
+
+    <h3>Step 2: Creating the Tables</h3>
+    <pre><code>
+        from app import db
+        db.create_all()
+    </code></pre>
+    <p>
+        Run this again in a Python shell after defining your models. New tables will be created.
+    </p>
+
+    <h3>Step 3: Inserting Data</h3>
+    <pre><code>
+        # Create a user
+        u1 = User(username="bob", email="bob@example.com")
+        db.session.add(u1)
+        db.session.commit()
+
+        # Create a post
+        p1 = Post(title="My First Post", content="Hello Flask!", author=u1)
+        db.session.add(p1)
+        db.session.commit()
+    </code></pre>
+
+    <h3>Step 4: Querying Data</h3>
+    <pre><code>
+        # Get all users
+        User.query.all()
+
+        # Get first user
+        User.query.first()
+
+        # Filter by username
+        User.query.filter_by(username="bob").first()
+
+        # Get posts by a user
+        user = User.query.filter_by(username="bob").first()
+        print(user.posts)
+    </code></pre>
+
+    <h3>Step 5: Relationships in Action</h3>
+    <p>
+        Thanks to the relationship we defined, you can access <code>post.author</code> or <code>user.posts</code> without writing complex joins.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

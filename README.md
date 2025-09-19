@@ -3,6 +3,14 @@
 A Flask-based web application that provides user authentication, profile management, and a learning dashboard with lessons and progress tracking.
 Flaskify enables users to be able to learn Flask, through Flask and built with Flask.
 
+<br>
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/78387b00-0aa6-4a74-aabd-afa3498e6c84" />
+<br>
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/48091c89-92a0-4387-8b7c-fb88c3826302" />
+<br>
+<img width="959" height="446" alt="image" src="https://github.com/user-attachments/assets/4af4525f-f8cf-434b-a252-33253545d099" />
+<br>
+
 ## Features  
 
 - 🔑 **User Authentication**  
@@ -35,18 +43,22 @@ Flaskify enables users to be able to learn Flask, through Flask and built with F
 ## Getting Started  
 
 ### Prerequisites  
-Make sure you have **Python 3.9+** installed.  
+Make sure you have **Python 3.9+** installed.
+You will need to create a FORM_SECRET_KEY in your .env file
 
 ### Installation  
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/flaskify.git
-cd flaskify
+git clone https://github.com/darkcom109/Flaskify.git
+cd Flaskify
 
 # Create a virtual environment
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
+
+# Install requirements.txt
+pip install -r requirements.txt
 
 # Run the app
 flask run

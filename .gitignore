@@ -1,2 +1,4 @@
 .env
-instance/users.db
+instance/*.db
+*.sqlite3
+*.sqlite

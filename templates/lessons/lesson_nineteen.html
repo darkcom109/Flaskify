@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 20: Testing Your Flask App</h1>
+        <p class="lead">In this lesson, you’ll learn how to write tests for your Flask application using <code>pytest</code> and Flask’s built-in test client.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Install pytest</h3>
+    <pre><code>
+{% raw %}
+pip install pytest
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 2: A Simple Test File</h3>
+    <pre><code>
+{% raw %}
+# test_app.py
+import pytest
+from app import app
+
+@pytest.fixture
+def client():
+    app.config["TESTING"] = True
+    with app.test_client() as client:
+        yield client
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 3: Testing a Route</h3>
+    <pre><code>
+{% raw %}
+def test_home_page(client):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert b"Welcome" in response.data
+{% endraw %}
+    </code></pre>
+    <p>
+        Here we test that the homepage loads successfully and contains the word “Welcome.”
+    </p>
+
+    <h3>Step 4: Testing JSON APIs</h3>
+    <pre><code>
+{% raw %}
+def test_api(client):
+    response = client.get("/api/hello")
+    json_data = response.get_json()
+    assert response.status_code == 200
+    assert json_data["message"] == "Hello, API World!"
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 5: Running Tests</h3>
+    <pre><code>
+{% raw %}
+pytest
+{% endraw %}
+    </code></pre>
+    <p>
+        Pytest will automatically discover and run all test files that start with <code>test_</code>.
+    </p>
+
+    <h3>Step 6: Why This Matters</h3>
+    <p>
+        Testing makes sure your routes, APIs, and database logic actually work — before your users (or your boss) find the bugs for you.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

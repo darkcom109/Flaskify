@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 14: Jinja Macros & Template Inheritance</h1>
+        <p class="lead">In this lesson, you’ll learn how to reduce repetition in your templates using <strong>template inheritance</strong> and <strong>Jinja macros</strong>.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Is Template Inheritance?</h3>
+    <p>
+        Instead of writing the same HTML structure (head, navbar, footer) on every page, 
+        you create a <code>base.html</code> template and let other templates extend it.
+    </p>
+    <pre><code>
+{% raw %}
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flaskify</title>
+</head>
+<body>
+    <header>Navbar here</header>
+
+    {% block content %}{% endblock %}
+
+    <footer>Footer here</footer>
+</body>
+</html>
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 2: Extending a Template</h3>
+    <pre><code>
+{% raw %}
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to Flaskify!</h1>
+    <p>Learning Flask through Flask.</p>
+{% endblock %}
+{% endraw %}
+    </code></pre>
+    <p>
+        This keeps your HTML consistent and much easier to maintain.
+    </p>
+
+    <h3>Step 3: Using Jinja Macros</h3>
+    <p>
+        A macro is like a function inside your template. It lets you reuse small chunks of code.
+    </p>
+    <pre><code>
+{% raw %}
+<!-- templates/macros.html -->
+{% macro render_input(name, type="text") %}
+    <label for="{{ name }}">{{ name.capitalize() }}:</label>
+    <input type="{{ type }}" name="{{ name }}" id="{{ name }}">
+{% endmacro %}
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 4: Importing and Using a Macro</h3>
+    <pre><code>
+{% raw %}
+<!-- templates/register.html -->
+{% from "macros.html" import render_input %}
+
+<form method="POST">
+    {{ render_input("username") }}
+    {{ render_input("password", type="password") }}
+    <button type="submit">Register</button>
+</form>
+{% endraw %}
+    </code></pre>
+    <p>
+        Now you don’t have to copy-paste form fields everywhere — just call the macro.
+    </p>
+
+    <h3>Step 5: Combining Techniques</h3>
+    <p>
+        Use <strong>template inheritance</strong> for big page layouts and <strong>macros</strong> for small reusable components. 
+        Together, they keep your project clean and DRY (Don’t Repeat Yourself).
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

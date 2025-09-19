@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 13: Custom Error Pages & Handling</h1>
+        <p class="lead">In this lesson, you’ll learn how to replace Flask’s default error messages with your own custom pages.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Why Customize Error Pages?</h3>
+    <p>
+        Flask’s default errors are plain and ugly. Custom pages improve user experience and keep your app looking polished — even when something goes wrong.
+    </p>
+
+    <h3>Step 2: Add Error Handlers</h3>
+    <pre><code>
+        from flask import render_template
+
+        @app.errorhandler(404)
+        def page_not_found(e):
+            return render_template("404.html"), 404
+
+        @app.errorhandler(500)
+        def internal_error(e):
+            return render_template("500.html"), 500
+    </code></pre>
+
+    <h3>Step 3: Create Templates</h3>
+    <pre><code>
+        <!-- templates/404.html -->
+        &lt;h1&gt;404 - Page Not Found&lt;/h1&gt;
+        &lt;p&gt;Oops! Looks like this page doesn’t exist.&lt;/p&gt;
+
+        <!-- templates/500.html -->
+        &lt;h1&gt;500 - Server Error&lt;/h1&gt;
+        &lt;p&gt;Something went wrong on our end. Please try again later.&lt;/p&gt;
+    </code></pre>
+
+    <h3>Step 4: Test It Out</h3>
+    <p>
+        - Visit a route that doesn’t exist → you’ll see your new <code>404</code> page.  
+        - Trigger an internal error (like dividing by zero in a view) → you’ll see the <code>500</code> page.  
+    </p>
+
+    <h3>Step 5: Extra Polishing</h3>
+    <p>
+        Add your site’s navbar, styles, and branding to the error pages so they feel consistent with the rest of your app.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

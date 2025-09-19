@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 21: Deployment Basics</h1>
+        <p class="lead">In this lesson, you’ll learn how to prepare and deploy your Flask app so the rest of the world can access it.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Debug vs Production</h3>
+    <p>
+        In development, you run Flask with <code>debug=True</code>.  
+        In production, this is dangerous — it exposes errors and allows remote code execution.  
+        Always disable debug mode when deploying.
+    </p>
+
+    <h3>Step 2: Install Gunicorn</h3>
+    <p>
+        Gunicorn is a production-grade WSGI server for running Python web apps.
+    </p>
+    <pre><code>
+{% raw %}
+pip install gunicorn
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 3: Running with Gunicorn</h3>
+    <pre><code>
+{% raw %}
+gunicorn -w 4 app:app
+{% endraw %}
+    </code></pre>
+    <p>
+        - <code>-w 4</code> = number of worker processes.  
+        - <code>app:app</code> = (file name : Flask instance).
+    </p>
+
+    <h3>Step 4: Using Environment Variables</h3>
+    <p>
+        Store secrets like your <code>SECRET_KEY</code> in environment variables, not hard-coded in <code>app.py</code>.
+    </p>
+    <pre><code>
+{% raw %}
+export SECRET_KEY="supersecret"
+flask run
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 5: Hosting Options</h3>
+    <ul>
+        <li><strong>Render</strong> – Easy deployment, free tier.</li>
+        <li><strong>Railway</strong> – Quick setup, good for side projects.</li>
+        <li><strong>PythonAnywhere</strong> – Great for beginners.</li>
+        <li><strong>AWS / Heroku (RIP free tier)</strong> – More advanced setups.</li>
+    </ul>
+
+    <h3>Step 6: Requirements File</h3>
+    <p>
+        Most platforms expect a <code>requirements.txt</code> listing dependencies:
+    </p>
+    <pre><code>
+{% raw %}
+pip freeze > requirements.txt
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 7: Procfile (for some hosts)</h3>
+    <pre><code>
+{% raw %}
+web: gunicorn app:app
+{% endraw %}
+    </code></pre>
+    <p>
+        This tells the platform how to run your app.
+    </p>
+
+    <h3>Step 8: Why This Matters</h3>
+    <p>
+        Deployment makes your Flask project real. Anyone with an internet connection can break it instead of just you.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

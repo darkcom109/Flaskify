@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 15: Building REST APIs in Flask</h1>
+        <p class="lead">In this lesson, you’ll learn how to create simple REST-style API endpoints that return <code>JSON</code> instead of HTML templates.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Is an API?</h3>
+    <p>
+        An API (Application Programming Interface) is how apps talk to each other.  
+        Instead of serving HTML, Flask can send back <code>JSON</code> data for other programs to use.
+    </p>
+
+    <h3>Step 2: A Simple JSON Response</h3>
+    <pre><code>
+{% raw %}
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route("/api/hello")
+def api_hello():
+    return jsonify(message="Hello, API World!")
+{% endraw %}
+    </code></pre>
+    <p>
+        Visit <code>/api/hello</code> in your browser and you’ll see a JSON object instead of a web page.
+    </p>
+
+    <h3>Step 3: Returning Data</h3>
+    <pre><code>
+{% raw %}
+@app.route("/api/users")
+def get_users():
+    users = [
+        {"id": 1, "username": "alice"},
+        {"id": 2, "username": "bob"}
+    ]
+    return jsonify(users)
+{% endraw %}
+    </code></pre>
+    <p>
+        Flask automatically converts Python dictionaries and lists into JSON.
+    </p>
+
+    <h3>Step 4: Accepting Query Parameters</h3>
+    <pre><code>
+{% raw %}
+from flask import request
+
+@app.route("/api/search")
+def search():
+    q = request.args.get("q", "")
+    return jsonify(result=f"You searched for: {q}")
+{% endraw %}
+    </code></pre>
+    <p>
+        Example: <code>/api/search?q=flask</code> → <code>{"result": "You searched for: flask"}</code>
+    </p>
+
+    <h3>Step 5: Returning Status Codes</h3>
+    <pre><code>
+{% raw %}
+@app.route("/api/error")
+def error_example():
+    return jsonify(error="Something went wrong"), 400
+{% endraw %}
+    </code></pre>
+    <p>
+        You can return a tuple: (JSON, status code).
+    </p>
+
+    <h3>Step 6: Why This Matters</h3>
+    <p>
+        APIs let your Flask app serve as a backend for JavaScript frontends, mobile apps, or even other services.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

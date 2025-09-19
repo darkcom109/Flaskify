@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 16: Consuming APIs with Fetch/AJAX</h1>
+        <p class="lead">In this lesson, you’ll learn how to call your Flask API endpoints from the frontend using JavaScript’s <code>fetch()</code>.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: A Basic API Endpoint</h3>
+    <pre><code>
+{% raw %}
+@app.route("/api/joke")
+def get_joke():
+    return jsonify(setup="Why did the server cross the road?", punchline="To get to the other request.")
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 2: Add a Template with JavaScript</h3>
+    <pre><code>
+{% raw %}
+&lt;!-- templates/joke.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Flaskify Joke&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Random Joke&lt;/h1&gt;
+    &lt;button id="joke-btn"&gt;Get Joke&lt;/button&gt;
+    &lt;p id="output"&gt;&lt;/p&gt;
+
+    &lt;script&gt;
+        document.getElementById("joke-btn").addEventListener("click", () =&gt; {
+            fetch("/api/joke")
+                .then(response =&gt; response.json())
+                .then(data =&gt; {
+                    document.getElementById("output").innerText = 
+                        data.setup + " " + data.punchline;
+                });
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+{% endraw %}
+</code></pre>
+
+    </code></pre>
+    <p>
+        Clicking the button will fetch data from your API and display it without refreshing the page.
+    </p>
+
+    <h3>Step 3: Sending Data to the API</h3>
+    <pre><code>
+{% raw %}
+@app.route("/api/echo", methods=["POST"])
+def echo():
+    data = request.get_json()
+    return jsonify(message=f"You sent: {data['text']}")
+{% endraw %}
+    </code></pre>
+
+    <pre><code>
+{% raw %}
+<!-- inside your script -->
+fetch("/api/echo", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "Hello Flaskify!" })
+})
+.then(res => res.json())
+.then(data => console.log(data.message));
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 4: Why This Matters</h3>
+    <p>
+        With <code>fetch()</code>, your Flask app can feel interactive without reloading the page.  
+        This is the foundation for building modern, dynamic web apps.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

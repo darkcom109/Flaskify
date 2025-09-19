@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Lesson 18: Blueprints (Modular Apps)</h1>
+        <p class="lead">In this lesson, you’ll learn how to organize your Flask project using <code>Blueprints</code>, which let you split routes into separate modules.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: What Are Blueprints?</h3>
+    <p>
+        A <strong>Blueprint</strong> is a way to group related routes and logic.  
+        Instead of dumping everything into <code>app.py</code>, you can keep your app modular and organized.
+    </p>
+
+    <h3>Step 2: Create a Blueprint</h3>
+    <pre><code>
+{% raw %}
+# blog/routes.py
+from flask import Blueprint
+
+blog = Blueprint("blog", __name__)
+
+@blog.route("/blog")
+def blog_home():
+    return "Welcome to the blog!"
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 3: Register the Blueprint</h3>
+    <pre><code>
+{% raw %}
+# app.py
+from flask import Flask
+from blog.routes import blog
+
+app = Flask(__name__)
+app.register_blueprint(blog)
+{% endraw %}
+    </code></pre>
+    <p>
+        Now visiting <code>/blog</code> will hit the blueprint route.
+    </p>
+
+    <h3>Step 4: Using URL Prefixes</h3>
+    <pre><code>
+{% raw %}
+# app.py
+app.register_blueprint(blog, url_prefix="/posts")
+{% endraw %}
+    </code></pre>
+    <p>
+        Now your routes are available under <code>/posts/...</code>.
+    </p>
+
+    <h3>Step 5: Multiple Blueprints</h3>
+    <pre><code>
+{% raw %}
+# auth/routes.py
+from flask import Blueprint
+
+auth = Blueprint("auth", __name__)
+
+@auth.route("/login")
+def login():
+    return "Login Page"
+
+# app.py
+from auth.routes import auth
+app.register_blueprint(auth, url_prefix="/auth")
+{% endraw %}
+    </code></pre>
+    <p>
+        You can now visit <code>/auth/login</code> for the auth blueprint.
+    </p>
+
+    <h3>Step 6: Why This Matters</h3>
+    <p>
+        Blueprints make large projects manageable by splitting features into separate files and folders.  
+        This is essential once you start building real-world apps.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

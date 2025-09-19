@@ -204,6 +204,130 @@
       </div>
     </div>
   </div>
+
+  <!-- Section 7 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSeven">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven">
+        Error Handling and Intermediate Jinja
+      </button>
+    </h2>
+    <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_thirteen"
+                   {% if "lesson_thirteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_thirteen')}}" class="margin-left-styling">Custom Error Pages and Handling</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_fourteen"
+                   {% if "lesson_fourteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_fourteen')}}" class="margin-left-styling">Jinja Macros & Template Inheritance</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingEight">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight">
+        Introduction to REST APIs
+      </button>
+    </h2>
+    <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_fifteen"
+                   {% if "lesson_fifteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_fifteen')}}" class="margin-left-styling">Building REST APIs in Flask</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_sixteen"
+                   {% if "lesson_sixteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_sixteen')}}" class="margin-left-styling">Consuming APIs with Fetch/AJAX</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_seventeen"
+                   {% if "lesson_seventeen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_seventeen')}}" class="margin-left-styling">Returning Database Data as JSON</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingNine">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine">
+        Blueprints, Testing and Deployment
+      </button>
+    </h2>
+    <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_eighteen"
+                   {% if "lesson_eighteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_eighteen')}}" class="margin-left-styling">Blueprints</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_nineteen"
+                   {% if "lesson_nineteen" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_nineteen')}}" class="margin-left-styling">Testing Your Flask App</a>
+          </li>
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="lesson_twenty"
+                   {% if "lesson_twenty" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='lesson_twenty')}}" class="margin-left-styling">Deployment Basics</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTen">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen">
+        Project Two - User Dashboard App
+      </button>
+    </h2>
+    <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion">
+      <div class="accordion-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input type="checkbox" 
+                   class="lesson-check item-styling"
+                   data-lesson-id="project_two"
+                   {% if "project_two" in user_progress %}checked{% endif %}>
+            <a href="{{url_for('lesson', lesson='project_two')}}" class="margin-left-styling">Complete Your Second Project</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </div>
 
     <script>

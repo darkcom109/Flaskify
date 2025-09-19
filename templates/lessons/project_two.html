@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block navigation_items %}
+    {% include 'components/nav_component.html' %}
+{% endblock %}
+
+{% block section %}
+<div class="container font-for-text">
+    <div class="text-center mt-2">
+        <h1 class="mb-3">Project Two: User Dashboard App</h1>
+        <p class="lead">In this project, you’ll build a small web app where users can sign up, log in, and manage their own dashboard. You’ll also expose a simple REST API for profile data.</p>
+    </div>
+
+    <hr>
+
+    <h3>Step 1: Project Structure</h3>
+    <pre><code>
+{% raw %}
+your_project/
+│── app.py
+│── requirements.txt
+│── templates/
+│    ├── base.html
+│    ├── login.html
+│    ├── register.html
+│    └── dashboard.html
+│── models.py
+│── auth/
+│    └── routes.py
+│── user/
+│    └── routes.py
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 2: Models</h3>
+    <pre><code>
+{% raw %}
+# models.py
+from app import db
+from flask_login import UserMixin
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 3: Authentication Blueprint</h3>
+    <pre><code>
+{% raw %}
+# auth/routes.py
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_user, logout_user
+from models import User
+
+auth = Blueprint("auth", __name__)
+
+@auth.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # pretend we check password
+        user = User.query.filter_by(username=request.form["username"]).first()
+        if user:
+            login_user(user)
+            return redirect(url_for("user.dashboard"))
+    return render_template("login.html")
+
+@auth.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 4: User Dashboard Blueprint</h3>
+    <pre><code>
+{% raw %}
+# user/routes.py
+from flask import Blueprint, render_template, jsonify
+from flask_login import login_required, current_user
+
+user = Blueprint("user", __name__)
+
+@user.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html", user=current_user)
+
+@user.route("/api/profile")
+@login_required
+def api_profile():
+    return jsonify(username=current_user.username, email=current_user.email)
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 5: Templates</h3>
+    <pre><code>
+{% raw %}
+<!-- templates/dashboard.html -->
+{% extends "base.html" %}
+{% block section %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Email: {{ user.email }}</p>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+{% endblock %}
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 6: Register Blueprints</h3>
+    <pre><code>
+{% raw %}
+# app.py
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from auth.routes import auth
+from user.routes import user
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+app.config["SECRET_KEY"] = "supersecret"
+
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = "auth.login"
+
+app.register_blueprint(auth, url_prefix="/auth")
+app.register_blueprint(user, url_prefix="/user")
+{% endraw %}
+    </code></pre>
+
+    <h3>Step 7: Test and Deploy</h3>
+    <ul>
+        <li>Run locally and confirm login → dashboard → logout flow works.</li>
+        <li>Check that <code>/user/api/profile</code> returns JSON when logged in.</li>
+        <li>Deploy to Render/Railway with <code>gunicorn</code> and your <code>requirements.txt</code>.</li>
+    </ul>
+
+    <h3>Final Goal</h3>
+    <p>
+        By the end, you’ll have a complete Flask project with authentication, Blueprints, templates, and an API endpoint — ready for the world.
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('dashboard') }}" class="btn button-bg-style mt-4">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

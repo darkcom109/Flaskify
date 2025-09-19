@@ -18,11 +18,13 @@
 
 {% block section %}
     <section class="font-for-text" style="text-align: center; padding-block: 100px;">
-        <h1 style="font-size: 70px;">Learn Flask. With Flask.</h1>
+        <h1 class="display-3 fw-bold mb-1">
+            Learn <span class="text-primary">Flask</span>. With <span class="text-success">Flask</span>.
+        </h1>
         <p>Interactive Lessons and Projects</p>
         <div>
-            <a href="{{url_for('login')}}"><button class="btn button-bg-style">Login</button></a>
-            <a href="{{url_for('signup')}}"><button class="btn button-bg-style">Sign-up</button></a>
+            <a href="{{url_for('login')}}"><button class="btn button-hero-style">Login</button></a>
+            <a href="{{url_for('signup')}}"><button class="btn button-hero-style">Sign-up</button></a>
         </div>
     </section>
 {% endblock %}

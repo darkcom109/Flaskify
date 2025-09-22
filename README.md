@@ -24,7 +24,7 @@ Flaskify enables users to be able to learn Flask, through Flask and built with F
 
 - 📚 **Learning Dashboard**  
   - Accordion-style lesson modules
-  - Approximately 20 different lessons, including routing, RestAPI and Ajax 
+  - Approximately 20 different lessons, including routing, RestAPI and AJAX 
   - Interactive checkboxes to track lesson completion  
   - Dynamic progress bar showing percentage of completed lessons  
 

@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length
-from flask_ckeditor import CKEditorField
 
 # Create a sign-up form class
 class SignUpForm(FlaskForm):
@@ -25,7 +24,7 @@ class UpdateForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(min=1, max=30)])
-    content = CKEditorField("Content", validators=[DataRequired(), Length(min=1, max=200)])
+    content = StringField("Content", validators=[DataRequired(), Length(min=1, max=200)])
     submit = SubmitField("Submit")
 
 class SearchForm(FlaskForm):

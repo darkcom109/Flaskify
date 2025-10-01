@@ -1,15 +1,15 @@
 from flask import render_template, redirect, url_for, flash, request
 import os
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from web_forms import SignUpForm, LoginForm, UpdateForm, PostForm, SearchForm
 from models import Posts, Users, db, app
 from valid_url import is_valid
 
+csrf = CSRFProtect(app)
 # Secret key - NEEDS TO BE CHANGED FOR SECURITY REASONS
 secret = os.getenv("FORM_SECRET_KEY")
-if not secret:
-    raise RuntimeError("Missing FORM_SECRET_KEY. Set it in your environment.")
 app.config['SECRET_KEY'] = secret
 
 # Initialise LoginManager
@@ -184,9 +184,12 @@ def lesson(lesson):
     else:
         return render_template("errors/404.html")
 
+# <--- SAVE PROGRESS --->
 @app.route("/save_progress", methods=['POST'])
 @login_required
 def save_progress():
+    if not request.is_json:
+        return {"success": False, "error": "JSON required"}, 400
     data = request.json
     current_user.progress = data.get("completed_lessons", [])
     db.session.commit()
@@ -202,7 +205,7 @@ def profile():
     return render_template("profile.html", current_user=current_user, posts=posts)
 
 # Update database record
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/update_profile/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update(id):
     if current_user.id != id:
@@ -210,11 +213,12 @@ def update(id):
         return redirect(url_for('dashboard'))
     form = UpdateForm()
     name_to_update = Users.query.get_or_404(id)
-    if request.method == "POST":
-        name_to_update.name = request.form['name']
-        name_to_update.email = request.form['email']
-        name_to_update.bio = request.form['bio']
-        name_to_update.aspiring_job = request.form['aspiring_job']
+
+    if form.validate_on_submit():
+        name_to_update.name = form.name.data.strip()
+        name_to_update.email = form.email.data.strip()
+        name_to_update.bio = form.bio.data.strip()
+        name_to_update.aspiring_job = form.aspiring_job.data.strip()
         try:
             db.session.commit()
             flash("User updated successfully!", "success")
@@ -282,5 +286,6 @@ def too_many_requests(e):
 def internal_error(e):
     return render_template("errors/500.html"), 500
 
+# <-- MUST CHANGE BEFORE PRODUCTION -->
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,30 +1,120 @@
 {% extends 'base.html' %}
 
 {% block navigation_items %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto gap-2">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Welcome</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{url_for('signup')}}">Sign-up</a>
-            </li>
-        </ul>
-    </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ms-auto gap-2">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Welcome</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('login') }}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{{ url_for('signup') }}">Sign-up</a>
+      </li>
+    </ul>
+  </div>
 {% endblock %}
 
 {% block section %}
-    <section class="font-for-text" style="text-align: center; padding-block: 100px;">
-        <h1 class="display-3 fw-bold mb-1">
-            Learn <span class="text-primary">Flask</span>. With <span class="text-success">Flask</span>.
-        </h1>
-        <p>Interactive Lessons and Projects</p>
-        <div>
-            <a href="{{url_for('login')}}"><button class="btn button-hero-style">Login</button></a>
-            <a href="{{url_for('signup')}}"><button class="btn button-hero-style">Sign-up</button></a>
+  <!-- Hero -->
+  <section class="hero-bg py-5 py-md-6 font-for-text">
+    <div class="container text-center">
+        <div class="mb-3">
+            <span class="rounded-pill text-bg-dark glass px-3 py-2">Built with Flask <span class="text-success">•</span> Learn Flask</span>
         </div>
-    </section>
+      <h1 class="display-4 fw-bold mb-2">
+        Learn <span class="text-gradient">Flask</span> by building with <span class="text-gradient">Flaskify</span>
+      </h1>
+      <p class="lead text-muted mb-4">Bite‑sized lessons <span class="text-success">•</span> Interactive examples <span class="text-success">•</span> Real projects</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg btn-glow px-4">Start free</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">I already have an account</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Features -->
+  <section class="py-5 font-for-text">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-2">Step‑by‑step Lessons</h3>
+              <p class="text-muted mb-0">From routing to blueprints, Jinja2 to WTForms—follow a clear path from basics to production‑ready patterns.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-2">Interactive Code</h3>
+              <p class="text-muted mb-0">Short snippets and runnable examples help concepts stick. Copy, tweak, and re‑run quickly.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="h5 mb-2">Project‑first</h3>
+              <p class="text-muted mb-0">Build a small app end‑to‑end: structure, templates, auth, database, and deployment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lessons preview (static placeholders; wire to your data later) -->
+  <section class="py-5 bg-light font-for-text">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2 class="h3 mb-4 ms-auto me-auto">Popular lessons</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card lesson-card h-100 shadow-sm">
+            <img src="https://picsum.photos/seed/flask1/800/400" alt="Routing basics" class="card-img-top">
+            <div class="card-body">
+              <h3 class="h6 mb-2">Routing & Views</h3>
+              <p class="text-muted small mb-3">Map URLs to view functions, pass data to templates, and return responses.</p>
+              <a href="{{ url_for('login')}}" class="btn btn-outline-secondary btn-sm">Start lesson</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card lesson-card h-100 shadow-sm">
+            <img src="https://picsum.photos/seed/flask2/800/400" alt="Templates & Jinja" class="card-img-top">
+            <div class="card-body">
+              <h3 class="h6 mb-2">Templates & Jinja2</h3>
+              <p class="text-muted small mb-3">Layout your pages with base templates, blocks, and control flow.</p>
+              <a href="{{ url_for('login')}}" class="btn btn-outline-secondary btn-sm">Start lesson</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card lesson-card h-100 shadow-sm">
+            <img src="https://picsum.photos/seed/flask3/800/400" alt="Blueprints" class="card-img-top">
+            <div class="card-body">
+              <h3 class="h6 mb-2">Blueprints & Structure</h3>
+              <p class="text-muted small mb-3">Split your app into reusable modules and keep imports clean.</p>
+              <a href="{{ url_for('login')}}" class="btn btn-outline-secondary btn-sm">Start lesson</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-5 py-md-6 text-center font-for-text">
+    <div class="container">
+      <h2 class="h2 fw-semibold mb-3">Ready to ship your first Flask app?</h2>
+      <p class="text-muted mb-4">Join Flaskify and learn by doing—no fluff, just focused practice.</p>
+      <a href="{{ url_for('signup') }}" class="btn btn-success btn-lg px-4">Create your account</a>
+    </div>
+  </section>
 {% endblock %}

@@ -86,7 +86,7 @@ def logout():
 def posts():
     # Grab all posts from DB
     posts = Posts.query.order_by(Posts.date_posted.desc()).all()
-    return render_template("posts.html", posts=posts)
+    return render_template("posts.html", posts=posts, current_user=current_user)
 
 # <--- VIEW POST PAGE --->
 @app.route('/posts/<int:id>')
@@ -107,8 +107,8 @@ def add_post():
         number_of_posts = Posts.query.filter_by(user_id=current_user.id).count()
         print(number_of_posts)
 
-        if number_of_posts >= 10:
-            flash("You cannot have more than 10 posts due to spam policies", "danger")
+        if number_of_posts >= 5:
+            flash("You cannot have more than 5 posts due to spam policies", "danger")
             return redirect(url_for('dashboard'))
 
         post = Posts(title=form.title.data.strip(),

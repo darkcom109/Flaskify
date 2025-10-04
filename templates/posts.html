@@ -33,6 +33,14 @@
                 <a class="btn btn-sm btn-outline-primary" href="{{ url_for('post', id=post.id) }}">
                     View Post
                 </a>
+                {% if post.author == current_user.name %}
+                  <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('edit_post', id=post.id) }}" aria-label="Edit post {{ post.title }}">
+                    Edit
+                  </a>
+                  <a class="btn btn-sm btn-outline-danger" href="{{ url_for('delete_post', id=post.id) }}" onclick="return confirm('Delete this post?')" aria-label="Delete post {{ post.title }}">
+                    Delete
+                  </a>
+                {% endif %}
             </div>
             <!--
             <div class="">

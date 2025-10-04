@@ -185,6 +185,7 @@ def lesson(lesson):
         return render_template("errors/404.html")
 
 # <--- SAVE PROGRESS --->
+@csrf.exempt
 @app.route("/save_progress", methods=['POST'])
 @login_required
 def save_progress():

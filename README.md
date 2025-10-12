@@ -1,4 +1,14 @@
-# Flaskify  
+# Flaskify
+
+<p align="center">
+  <img src="https://img.shields.io/badge/-Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/-SQLAlchemy-CC2927?style=for-the-badge&logo=databricks&logoColor=white" />
+  <img src="https://img.shields.io/badge/-SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Bootstrap_5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Jinja2-B41717?style=for-the-badge&logo=jinja&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Flask_Login-00ACC1?style=for-the-badge&logo=flask&logoColor=white" />
+</p>
 
 A Flask-based web application that provides user authentication, profile management, and a learning dashboard with lessons and progress tracking.
 Flaskify enables users to be able to learn Flask, through Flask and built with Flask.
